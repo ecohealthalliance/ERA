@@ -26,3 +26,4 @@ highcharts-container
 twbs:bootstrap
 stylus
 fortawesome:fontawesome
+russel:google-api-meteor-client
