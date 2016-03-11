@@ -1,3 +1,18 @@
+key = require('ERA_Analytics.json');
+# var jwtClient = new google.auth.JWT(key.client_email, null, key.private_key, [scope1, scope2], null);
+
+# jwtClient.authorize(function(err, tokens) {
+#   if (err) {
+#     console.log(err);
+#     return;
+#   }
+
+#   // Make an authorized request to list Drive files.
+#   drive.files.list({ auth: jwtClient }, function(err, resp) {
+#     // handle err and response
+#   });
+# });
+
 Template.dash.helpers
   flightCounts: ->
     "123,673"
@@ -22,6 +37,8 @@ Template.dash.events
 Template.dash.onRendered =>
   Meteor.subscribe('flightCounts');
   Meteor.defer () =>
+    console.log key
+
     Meteor.autorun () =>
       # console.log FlightCounts.find().count()
       counts = @FlightCounts.find().fetch()
