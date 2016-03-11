@@ -1,0 +1,33 @@
+template(name='dash')
+  .container
+    .row.dash-row
+      +infoPanel(
+        chart='flight-chart'
+        big=flightCounts
+        small=flightCountInfo
+        subInfo='view more FLIRT information'
+        active=true
+        icon='fa-plane'
+      )
+      +infoPanel(
+        chart='active-users-chart'
+        big=flirtActiveUsers
+        small='active users on FLIRT'
+        subInfo='view FLIRT analytics'
+        icon='fa-line-chart'
+      )
+      +infoPanel(
+        chart='downtime-chart'
+        big=flirtDowntime
+        small=flirtDowntimeInfo
+        subInfo='view FLIRT analytics'
+        icon='fa-hand-o-down'
+      )
+    .row.dash-row-main
+      .col-lg-12
+        .panel.panel-6
+          .chart#flight-chart
+          .chart#active-users-chart active users!!!
+          .chart#downtime-chart downtime!!!
+      //- .col-lg-3
+      //-   .panel.panel-7 window 4!

@@ -1,0 +1,12 @@
+template(name='infoPanel')
+  .col-lg-4.col-md-6
+    .panel.info-panel(class="{{#if active}}active{{/if}}", data-chart="{{chart}}")
+      .row.panel-header
+        .col-sm-3
+          i.fa.fa-4x(class="{{icon}}")
+        .col-sm-9 
+          .big 
+            {{big}}
+          .small 
+            {{small}}
+      .panel-footer {{subInfo}}
