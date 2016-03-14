@@ -1,8 +1,8 @@
 {
   "type": "service_account",
   "project_id": "ecohealth-realtime-analysis",
-  "private_key_id": "",
-  "private_key": "",
+  "private_key_id": "{FILL ME IN}",
+  "private_key": "{FILL ME IN}",
   "client_email": "era-180@ecohealth-realtime-analysis.iam.gserviceaccount.com",
   "client_id": "113388554049394870724",
   "auth_uri": "https://accounts.google.com/o/oauth2/auth",

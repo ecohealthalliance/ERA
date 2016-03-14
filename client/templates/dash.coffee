@@ -1,29 +1,12 @@
-key = require('ERA_Analytics.json');
-# var jwtClient = new google.auth.JWT(key.client_email, null, key.private_key, [scope1, scope2], null);
-
-# jwtClient.authorize(function(err, tokens) {
-#   if (err) {
-#     console.log(err);
-#     return;
-#   }
-
-#   // Make an authorized request to list Drive files.
-#   drive.files.list({ auth: jwtClient }, function(err, resp) {
-#     // handle err and response
-#   });
-# });
-
 Template.dash.helpers
   flightCounts: ->
     "123,673"
   flightCountInfo: ->
     "flights added since 3/3/2016"
   flirtActiveUsers: ->
-    "32"
+    "8"
   flirtDowntime: ->
     "2 horus 17 minutes"
-  flirtActiveUsers: ->
-    "32"
   flirtDowntime: ->
     "2h 17m downtime"
   flirtDowntimeInfo: ->
@@ -31,15 +14,20 @@ Template.dash.helpers
 
 Template.dash.events
 'click .panel': (event, instance) ->
-  console.log 'panel click'
+  # console.log 'panel click'
   console.log $(this).data("chart")
 
-Template.dash.onRendered =>
+Template.dash.onCreated =>
   Meteor.subscribe('flightCounts');
+  @userData = new ReactiveVar({})
   Meteor.defer () =>
-    console.log key
-
     Meteor.autorun () =>
+      Meteor.call 'getAnalyticsData', 
+        (err, result) ->
+          Template.instance.userData.set(result)
+          console.log Template.instance.userData
+          # console.log 'done getting analytics data!'
+
       # console.log FlightCounts.find().count()
       counts = @FlightCounts.find().fetch()
       cleanDates = _.map counts, (item) ->

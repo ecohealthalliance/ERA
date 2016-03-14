@@ -27,3 +27,5 @@ twbs:bootstrap
 stylus
 fortawesome:fontawesome
 russel:google-api-meteor-client
+peerlibrary:async
+reactive-var
