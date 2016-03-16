@@ -5,7 +5,7 @@ template(name='userInfo')
         .row.month-users
           .col-md-6
             .info-block
-              h2 {{users30}}  
+              h2= users30
               p users in the last 30 days
           .col-md-6
             .info-block
@@ -17,6 +17,5 @@ template(name='userInfo')
           ul.list-group
             each sources
               li.list-group-item
-                span.label.label-default.label-pill.pull-right= count
-                  | " sources"
-                = source
+                span.label.label-default.label-pill.pull-right #{count}
+                | sources #{source}
