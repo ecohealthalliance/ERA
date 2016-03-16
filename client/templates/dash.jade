@@ -34,6 +34,9 @@ template(name='dash')
         .pane(class="{{paneVisible 'flight-chart'}}")
           +flightInfo
         .pane(class="{{paneVisible 'active-users-chart'}}")
-          +userInfo users30=users30 source=source
+          +userInfo(
+            users30=flirtUsers30
+            sources=flirtSources
+          )
         .pane(class="{{paneVisible 'downtime-chart'}}")
           +downtime

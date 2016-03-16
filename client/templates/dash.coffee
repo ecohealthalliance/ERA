@@ -1,6 +1,24 @@
 FlightCounts = ()->
   @FlightCounts
 
+Template.dash.helpers
+  flightCounts: ->
+    "123,673"
+  flightCountInfo: ->
+    "flights added since 3/3/2016"
+  flirtActiveUsers: =>
+    @userData.get().today?["ga:sessions"]
+  flirtUsers30: =>
+    @userData.get().ThirtyDays?.monthlyTotals?["ga:sessions"]
+  flirtSources: =>
+    @userData.get().ThirtyDays?.sources
+  flirtDowntime: ->
+    "2 horus 17 minutes"
+  flirtDowntime: ->
+    "2h 17m downtime"
+  flirtDowntimeInfo: ->
+    "since 2/15/2016"
+
 Template.dash.onCreated ->
   @userData = new ReactiveVar {}
   @paneState = new ReactiveVar 'flight-chart'
@@ -10,9 +28,7 @@ Template.dash.onCreated ->
     Meteor.autorun () =>
       Meteor.call 'getAnalyticsData',
         (err, result) ->
-          instance.userData.set(result)
-          console.log instance.userData
-
+          @userData.set(result)
       counts = FlightCounts().find().fetch()
       cleanDates = _.map counts, (item) ->
         return {date: item.date.toLocaleDateString(), count: item.count}

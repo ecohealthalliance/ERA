@@ -5,7 +5,7 @@ template(name='userInfo')
         .row.month-users
           .col-md-6
             .info-block
-              h2 108 
+              h2 {{users30}}  
               p users in the last 30 days
           .col-md-6
             .info-block
@@ -15,12 +15,8 @@ template(name='userInfo')
         .info-block
           h2 Traffic Sources
           ul.list-group
-            li.list-group-item
-              span.label.label-default.label-pill.pull-right 57 visitors
-              | google.com
-            li.list-group-item
-              span.label.label-default.label-pill.pull-right 19 visitors
-              | apps.bsvecosystem.net
-            li.list-group-item
-              span.label.label-default.label-pill.pull-right 28 visitors
-              | localhost:8080
+            each sources
+              li.list-group-item
+                span.label.label-default.label-pill.pull-right= count
+                  | " sources"
+                = source
