@@ -1,36 +1,39 @@
 template(name='dash')
-  .container
-    .row.dash-row
-      +infoPanel(
-        chart='flight-chart'
-        big=flightCounts
-        small=flightCountInfo
-        subInfo='view more FLIRT information'
-        active=true
-        icon='fa-plane'
-      )
-      +infoPanel(
-        chart='active-users-chart'
-        big=flirtActiveUsers
-        small='active users on FLIRT'
-        subInfo='view FLIRT analytics'
-        icon='fa-line-chart'
-      )
-      +infoPanel(
-        chart='downtime-chart'
-        big=flirtDowntime
-        small=flirtDowntimeInfo
-        subInfo='view FLIRT analytics'
-        icon='fa-hand-o-down'
-      )
+  .panels.dash-row
+    +infoPanel(
+      title='Flights'
+      chart='flight-chart'
+      primary=flightCounts
+      secondary=flightCountInfo
+      subInfo='view more FLIRT information'
+      active=true
+      icon='airplane'
+      paneState=paneState
+    )
+    +infoPanel(
+      title='Visitors'
+      chart='active-users-chart'
+      primary=flirtActiveUsers
+      secondary='active users on FLIRT'
+      subInfo='view FLIRT analytics'
+      icon='account-network'
+      paneState=paneState
+    )
+    +infoPanel(
+      title='Downtime'
+      chart='downtime-chart'
+      primary=flirtDowntime
+      secondary=flirtDowntimeInfo
+      subInfo='view FLIRT analytics'
+      icon='thumb-down'
+      paneState=paneState
+    )
+  .container-fluid
     .row.dash-row-main
       .col-lg-12
-        .panel.panel-6
+        .pane(class="{{paneVisible 'flight-chart'}}")
           +flightInfo
-          +userInfo(
-            users30=users30
-            source=source
-          )
+        .pane(class="{{paneVisible 'active-users-chart'}}")
+          +userInfo users30=users30 source=source
+        .pane(class="{{paneVisible 'downtime-chart'}}")
           +downtime
-      //- .col-lg-3
-      //-   .panel.panel-7 window 4!

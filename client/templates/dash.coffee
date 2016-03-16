@@ -1,3 +1,42 @@
+FlightCounts = ()->
+  @FlightCounts
+
+Template.dash.onCreated ->
+  @userData = new ReactiveVar {}
+  @paneState = new ReactiveVar 'flight-chart'
+  @subscribe 'flightCounts'
+  instance = @
+  Meteor.defer () =>
+    Meteor.autorun () =>
+      Meteor.call 'getAnalyticsData',
+        (err, result) ->
+          instance.userData.set(result)
+          console.log instance.userData
+
+      counts = FlightCounts().find().fetch()
+      cleanDates = _.map counts, (item) ->
+        return {date: item.date.toLocaleDateString(), count: item.count}
+      Highcharts.chart 'flight-chart',
+          chart:
+              type: 'line',
+              zoomType: 'x'
+          ,
+          title:
+              text: 'Flights per day'
+          ,
+          xAxis:
+              name: 'Date',
+              categories: _.pluck(cleanDates,'date')
+          ,
+          yAxis:
+              title:
+                  text: 'Number of Flights'
+          ,
+          series: [
+              name: 'Flights per day',
+              data: _.pluck(cleanDates,'count')
+          ]
+
 Template.dash.helpers
   flightCounts: ->
     "123,673"
@@ -11,44 +50,8 @@ Template.dash.helpers
     "2h 17m downtime"
   flirtDowntimeInfo: ->
     "since 2/15/2016"
-
-Template.dash.events
-'click .panel': (event, instance) ->
-  # console.log 'panel click'
-  console.log $(this).data("chart")
-
-Template.dash.onCreated =>
-  Meteor.subscribe('flightCounts');
-  @userData = new ReactiveVar({})
-  Meteor.defer () =>
-    Meteor.autorun () =>
-      Meteor.call 'getAnalyticsData', 
-        (err, result) ->
-          Template.instance.userData.set(result)
-          console.log Template.instance.userData
-          # console.log 'done getting analytics data!'
-
-      # console.log FlightCounts.find().count()
-      counts = @FlightCounts.find().fetch()
-      cleanDates = _.map counts, (item) ->
-        return {date: item.date.toLocaleDateString(), count: item.count}
-      Highcharts.chart 'flight-chart',
-          chart: 
-              type: 'line',
-              zoomType: 'x'
-          ,
-          title: 
-              text: 'Flights per day'
-          ,
-          xAxis: 
-              name: 'Date',
-              categories: _.pluck(cleanDates,'date')
-          ,
-          yAxis: 
-              title: 
-                  text: 'Number of Flights'
-          ,
-          series: [
-              name: 'Flights per day',
-              data: _.pluck(cleanDates,'count')
-          ]
+  paneState: ->
+    Template.instance().paneState
+  paneVisible: (paneName)->
+    if paneName == Template.instance().paneState.get()
+      'visible'

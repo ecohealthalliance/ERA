@@ -25,7 +25,7 @@ highcharts:highcharts-meteor
 highcharts-container
 twbs:bootstrap
 stylus
-fortawesome:fontawesome
 russel:google-api-meteor-client
 peerlibrary:async
 reactive-var
+dapearce:material-icons
