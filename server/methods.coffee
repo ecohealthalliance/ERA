@@ -1,6 +1,9 @@
+Meteor.startup () =>
+  @Future = Npm.require('fibers/future');
+
 Meteor.methods
   getAnalyticsData: () =>
-    # console.log "calling getAnalyticsData"
+    future = new Future()
     jwtClient = new GoogleApis.auth.JWT(
       Meteor.settings.client_email, 
       null, 
@@ -8,7 +11,6 @@ Meteor.methods
       ['https://www.googleapis.com/auth/analytics.readonly'], 
       null
     )
-
     jwtClient.authorize (err, tokens)=>
       if err
         console.log "Error authorizing"
@@ -22,7 +24,6 @@ Meteor.methods
             { 
               'ids': 'ga:114507084', 
               'metrics':'ga:sessions', 
-              # 'dimensions': 'ga:source,ga:keyword',
               'start-date': 'today',
               'end-date': 'today',
               'auth': jwtClient
@@ -48,15 +49,17 @@ Meteor.methods
               if err
                 console.log "Error in getting GA Metrics"
                 console.log err, response
-              callback(err, {rows: response.rows, totalsForAllResults: response.totalsForAllResults } )
+              sources = _.map response.rows, (row) ->
+                  source: row[0]
+                  count: row[2]
+              callback(err, {sources: sources, monthlyTotals: response.totalsForAllResults } )
           )
         ],
         (err, results) ->
-          console.log "results", results
-          return {
+          future["return"]({
             today: results[0],
             ThirtyDays: results[1]
-          }
-
+          })
+    return future.wait()
 
 
