@@ -1,42 +1,144 @@
-// .container
-//   height 700px
-// .dash-row
-//   height 25%
-// .dash-row-main
-//   height 75%
-.panel
-  margin: 10px
-  // border 1px solid
-  border-radius 4px
-  // padding 15px
-.fa
-  color white
-.dash-row .panel
-  color white
-  background-color #d9534f
+@import 'variables.import'
+
+html
+body
+  width 100%
+  background $gray-ll
+  color #333
+
+body
+  font-family $body-font
+
+h1
+h2
+h3
+  font-family $header-font
+  color $gray-md
+
+.page-wrapper
+  display flex
+  align-items stretch
+  height 100vh
+
+nav
+  flex 1 1 5%
+  background white
+  justify-content center
+  border-right 5px solid $border-gray
+  h1
+    background url(images/eha-logo.svg) 40% 50% no-repeat
+    background-size cover
+    height 200px
+    text-indent -9999px
+    margin 0
+    margin-top -30px
+  ul
+    margin-top 20px
+  li
+    position relative
+    cursor pointer
+    &.active
+      &::after
+        position absolute
+        content ''
+        top 0
+        bottom 0
+        right -4px
+        width 8px
+        background $primary
+        border-top-left-radius 2px
+        border-bottom-left-radius 2px
+  .flirt
+    display block
+    min-height 100px
+    background url(images/flirt-logo.svg) 40% 50% no-repeat
+    background-size 70%
+    text-indent -9999px
+
+.main-content
+  flex 1 1 95%
+
+.panels
+  display flex
+  align-items center
+  margin-bottom 40px
+  background $border-gray
+
+.info-panel
+  flex 1 1 0
+  background-color #FFF
   cursor pointer
-.panel-footer
-  background-color #f8f8f8
-  text-align right
-  color black
+  margin-right 1px
+  color $gray-m
+  text-shadow 0 1px 0 rgba(255,255,255,.2)
+  border-bottom 5px solid $border-gray
+  .mdi
+    font-size 2.5em
+  &:last-of-type
+    border-right 0
+  &:hover
+    background-color darken(@background-color, 5%)
+  &.active
+    color $gray-d
+    border-bottom-color $primary
+    h2
+      color $gray-d
+    &::after
+      content ''
+      display block
+      position absolute
+      bottom -20px
+    	width 0
+    	height 0
+    	border-left 20px solid transparent
+    	border-right 20px solid transparent
+    	border-top 20px solid #f00
+
+// [data-chart=downtime-chart]
+//   color $warning
+
 .panel-header
-  padding 10px
-.big
-  float right
-  font-size 20px
+  padding 10px 20px
+  display flex
+  align-items middle
+  justify-content space-between
+  h2
+    display inline-block
+    margin 0 0 0 5px
+    text-transform uppercase
+    font-weight bold
+    font-size 1.75em
+
+.primary
+  font-size 1.5em
   font-weight 700
-  clear both
-.small
-  clear both
-  float right
-.panel.active
-  background-color #5cb85c
-.chart
-  display none
-#flight-chart
-  display block
-#downtime-chart fa
-  color: black
-// .dash-row-main
-//   border 1px solid #5cb85c
-//   border-radius 4px
+  font-family $header-font
+
+.primary
+.secondary
+  text-align right
+
+.pane
+  width 80%
+  margin 0 auto
+  &:not(.visible)
+    display none
+
+.title
+  display flex
+  align-items center
+
+#downtime-chart
+  .fa
+    color black
+
+.info-block
+  background white
+  padding 15px
+  border-radius 3px
+  h2
+    margin-top 0
+    text-transform uppercase
+
+.month-users
+  margin-bottom 20px

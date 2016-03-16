@@ -1,8 +1,10 @@
-Template.infoPanel.events
-  'click .panel': (event, instance) ->
-    $(".info-panel").removeClass("active")
-    $(event.currentTarget).addClass("active")
-    chart = event.currentTarget.getAttribute("data-chart")
-    $(".chart").hide()
-    $("#" + chart).show()
+Template.infoPanel.onCreated ->
+  @paneState = @data.paneState
 
+Template.infoPanel.helpers
+  active: ()->
+    Template.instance().paneState.get() == @chart
+
+Template.infoPanel.events
+  'click .info-panel': (event, instance) ->
+    instance.paneState.set instance.data.chart
