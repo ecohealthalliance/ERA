@@ -60,7 +60,7 @@ nav
 
 .panels
   display flex
-  align-items center
+  align-items stretch
   margin-bottom 40px
   background $border-gray
 
@@ -83,19 +83,6 @@ nav
     border-bottom-color $primary
     h2
       color $gray-d
-    &::after
-      content ''
-      display block
-      position absolute
-      bottom -20px
-    	width 0
-    	height 0
-    	border-left 20px solid transparent
-    	border-right 20px solid transparent
-    	border-top 20px solid #f00
-
-// [data-chart=downtime-chart]
-//   color $warning
 
 .panel-header
   padding 10px 20px
