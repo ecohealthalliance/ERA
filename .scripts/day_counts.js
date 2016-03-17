@@ -6,7 +6,7 @@ db.legs.ensureIndex({day5:1})
 db.legs.ensureIndex({day6:1})
 db.legs.ensureIndex({day7:1})
 
-db.legs.aggregate([
+var dayCounts = db.legs.aggregate([
   {"$project": 
     { "mondayNum": {"$cond": ["$day1",1,0]},
       "tuesdayNum":{"$cond": ["$day2",1,0]},
@@ -20,30 +20,38 @@ db.legs.aggregate([
   {"$group": 
     {
       "_id": null,
-      "mondayCount":{
+      "monday":{
         "$sum":"$mondayNum"
       },
-      "tuesdayCount":{
+      "tuesday":{
         "$sum":"$tuesdayNum"
       },
-      "wednesdayCount":{
+      "wednesday":{
         "$sum":"$wednesdayNum"
       },
-      "thursdayCount":{
+      "thursday":{
         "$sum":"$thursdayNum"
       },
-      "fridayCount":{
+      "friday":{
         "$sum":"$fridayNum"
       },
-      "saturdayCount":{
+      "saturday":{
         "$sum":"$saturdayNum"
       },
-      "sundayCount":{
+      "sunday":{
         "$sum":"$sundayNum"
       }
     }
   }
 ])
+db.dayCounts.remove({});
+db.dayCounts.insert({day: "Monday", count: dayCounts.result[0].monday})
+db.dayCounts.insert({day: "Tuesday", count: dayCounts.result[0].tuesday})
+db.dayCounts.insert({day: "Wednesday", count: dayCounts.result[0].wednesday})
+db.dayCounts.insert({day: "Thursday", count: dayCounts.result[0].thursday})
+db.dayCounts.insert({day: "Friday", count: dayCounts.result[0].friday})
+db.dayCounts.insert({day: "Saturday", count: dayCounts.result[0].saturday})
+db.dayCounts.insert({day: "Sunday", count: dayCounts.result[0].sunday})
 
 // db.legs.dropIndex({day1:1})
 // db.legs.dropIndex({day2:1})
