@@ -1,2 +1,2 @@
 Meteor.publish 'flightCounts', =>
-  @FlightCounts.find()
+  @FlightCounts.find({},{sort: {date: 1}})
