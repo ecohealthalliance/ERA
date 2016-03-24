@@ -29,3 +29,7 @@ russel:google-api-meteor-client
 peerlibrary:async
 reactive-var
 dapearce:material-icons
+kadira:flow-router
+kadira:blaze-layout
+arillo:flow-router-helpers
+zimme:active-route

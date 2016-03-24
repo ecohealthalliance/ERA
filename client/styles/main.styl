@@ -1,5 +1,7 @@
 @import 'variables.import'
 
+$apps = flirt birt
+
 html
 body
   width 100%
@@ -36,24 +38,32 @@ nav
     margin-top 20px
   li
     position relative
-    cursor pointer
+    display block
     &.active
       &::after
         position absolute
         content ''
         top 0
         bottom 0
-        right -4px
+        right -5px
         width 8px
         background $primary
         border-top-left-radius 2px
         border-bottom-left-radius 2px
-  .flirt
+  a
     display block
     min-height 100px
-    background url(images/flirt-logo.svg) 40% 50% no-repeat
+    max-width 70%
+    margin-left auto
+    margin-right auto
     background-size 70%
     text-indent -9999px
+  for $app in $apps
+    .{$app}
+      background url('images/'+ $app + '-logo.svg') 40% 50% no-repeat
+
+  .birt
+    background-size 85%
 
 .main-content
   flex 1 1 95%

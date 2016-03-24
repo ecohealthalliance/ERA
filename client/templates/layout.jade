@@ -1,11 +1,8 @@
 head
   link(href='https://fonts.googleapis.com/css?family=Oswald:700|Muli:400,300' rel='stylesheet' type='text/css')
   
-body
+template(name="layout")
   .page-wrapper
-    nav
-      h1 EHA
-      ul.list-unstyled
-        li.flirt.active FLIRT
+    +nav
     .main-content
-      +dash
+      +Template.dynamic template=dashboard
