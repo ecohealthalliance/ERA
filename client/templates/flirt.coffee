@@ -1,6 +1,5 @@
 FlightCounts = ()->
   @FlightCounts
-
 Template.flirt.helpers
   flightCounts: ->
     "123,673"
