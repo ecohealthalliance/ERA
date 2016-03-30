@@ -2,4 +2,4 @@ Meteor.publish 'flightCounts', =>
   @FlightCounts.find()
 
 Meteor.publish 'birdCounts', =>
-  @BirdCounts.find()
+  @BirdCounts.find({count: {$gt: 45}})
