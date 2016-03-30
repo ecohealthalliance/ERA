@@ -6,7 +6,6 @@ Template.migrations.onCreated ->
   instance = @
   Meteor.defer () =>
     Meteor.autorun () =>
-      # console.log BirdCounts().find().fetch()
       birds = BirdCounts().find().fetch()
       console.log _.pluck(birds,'bird')
       console.log _.pluck(birds,'count')
