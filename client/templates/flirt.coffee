@@ -1,7 +1,6 @@
 FlightCounts = ()->
   @FlightCounts
-
-Template.dash.helpers
+Template.flirt.helpers
   flightCounts: ->
     "123,673"
   flightCountInfo: ->
@@ -24,7 +23,7 @@ Template.dash.helpers
     if paneName == Template.instance().paneState.get()
       'visible'
 
-Template.dash.onCreated ->
+Template.flirt.onCreated ->
   @userData = new ReactiveVar {}
   @paneState = new ReactiveVar 'flight-chart'
   @subscribe 'flightCounts'
