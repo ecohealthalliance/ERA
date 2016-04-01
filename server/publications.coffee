@@ -7,3 +7,6 @@ Meteor.publish 'dayCounts', =>
 
 Meteor.publish 'birdCounts', =>
   @BirdCounts.find({count: {$gt: 45}})
+
+Meteor.publish 'airportCounts', =>
+  @AirportCounts.find({total: {$gt: 50000}})

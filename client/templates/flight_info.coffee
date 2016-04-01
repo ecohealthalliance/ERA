@@ -2,6 +2,8 @@ FlightCounts = ()->
   @FlightCounts
 DayCounts = ()->
   @DayCounts
+AirportCounts = ()->
+  @AirportCounts
 
 CreateDaysChart = () ->
   counts = DayCounts().find().fetch()
@@ -24,6 +26,10 @@ CreateDaysChart = () ->
           name: 'Flights per day of week',
           data: _.pluck(counts,'count')
       ]
+
+CreateAirportChart = () ->
+  console.log AirportCounts().find().fetch()
+
 CreateFlightCountChart = () ->
   counts = FlightCounts().find().fetch()
   cleanDates = _.map counts, (item) ->
@@ -54,3 +60,4 @@ Template.flightInfo.onCreated ->
     Meteor.autorun () =>
       CreateFlightCountChart()
       CreateDaysChart()
+      CreateAirportChart()

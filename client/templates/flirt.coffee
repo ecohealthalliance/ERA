@@ -28,6 +28,7 @@ Template.flirt.onCreated ->
   @paneState = new ReactiveVar 'flight-chart'
   @subscribe 'flightCounts'
   @subscribe 'dayCounts'
+  @subscribe 'airportCounts'
   instance = @
   Meteor.defer () =>
     Meteor.autorun () =>
