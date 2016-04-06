@@ -28,8 +28,38 @@ CreateDaysChart = () ->
       ]
 
 CreateAirportChart = () ->
-  console.log AirportCounts().find().fetch()
-
+  airports = AirportCounts().find().fetch()
+  arrivalData = _.pluck(airports, "arrivalCount")
+  departureData = _.pluck(airports, "departureCount")
+  Highcharts.chart 'airport-chart',
+      chart:
+        type: 'column'
+      ,
+      title:
+        text: 'Arrivals and departures'
+      ,
+      xAxis:
+        name: 'Airport',
+        categories: _.pluck(airports,'_id')
+      ,
+      yAxis:
+        title:
+          text: 'Arrivals and Departures'
+      ,
+      plotOptions: 
+        series: 
+          stacking: 'normal',
+        column: 
+          pointPadding: 0.2,
+          borderWidth: 0
+      series: [
+          name: 'Arrivals',
+          data: arrivalData
+        ,
+          name: 'Departures',
+          data: departureData
+      ]
+  
 CreateFlightCountChart = () ->
   counts = FlightCounts().find().fetch()
   cleanDates = _.map counts, (item) ->
