@@ -5,5 +5,7 @@ Template.login.events
     Meteor.call 'loginUser', email, password, (err, result) ->
       console.log "ERROR: ", err if err
       # console.log "login result", result
-      Meteor.loginWithToken(result);
-      redirect("/")
+      if result
+        console.log "logged in"
+        Meteor.loginWithToken(result);
+        Router.go("/")

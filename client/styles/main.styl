@@ -59,6 +59,8 @@ nav
     margin-right auto
     background-size 70%
     text-indent -9999px
+  a.no-indent
+    text-indent 0px
   for $app in $apps
     .{$app}
       background url('images/'+ $app + '-logo.svg') 40% 50% no-repeat

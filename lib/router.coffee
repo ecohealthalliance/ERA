@@ -3,9 +3,11 @@ if Meteor.isClient
 
 checkLoggedIn = () ->
   if !Meteor.userId()
-    console.log Meteor.userId()
-    console.log "User not logged in - redirecting..."
     FlowRouter.go 'login'
+    # redirect('/login')
+
+alreadyLoggedIn = () ->
+    FlowRouter.go '/'
     # redirect('/login')
 
 FlowRouter.route '/',
@@ -31,9 +33,19 @@ FlowRouter.route '/birt',
 
 FlowRouter.route '/login',
   name: 'login'
+  triggersEnter: [alreadyLoggedIn],
   action: (params) ->
     BlazeLayout.render 'layout',
     dashboard: 'login'
+
+# FlowRouter.route '/logout',
+#   name: 'logout'
+#   action: (params) ->
+#     console.log "start with logout"
+#     Meteor.logout ->
+#       console.log "done with logout"
+#       Session.set 'ses', false
+#       FlowRouter.go 'login'
 
 FlowRouter.route '/register',
   name: 'register'
