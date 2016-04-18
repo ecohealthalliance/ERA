@@ -16,7 +16,6 @@ standard-minifiers      # JS/CSS minifiers run for production mode
 es5-shim                # ECMAScript 5 compatibility for older browsers.
 ecmascript              # Enable ECMAScript2015+ syntax in app code
 
-insecure                # Allow all DB writes from clients (for prototyping)
 coffeescript
 mquandalle:jade
 highcharts:highcharts-meteor
@@ -33,3 +32,7 @@ kadira:flow-router
 kadira:blaze-layout
 arillo:flow-router-helpers
 zimme:active-route
+accounts-ui
+sgi:sprintfjs
+http
+accounts-password

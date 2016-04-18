@@ -8,7 +8,7 @@ db.migrations.aggregate(
       count: {$sum: "$sighting.count"}
     }
   }
-).result.forEach(function(res){
+).forEach(function(res){
   db.birdCounts.insert({bird: res._id.bird, count: res.count })
 })
 
