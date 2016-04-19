@@ -4,11 +4,11 @@ if Meteor.isClient
 checkLoggedIn = () ->
   unless Meteor.loggingIn() or Meteor.userId()
     console.log "not logged"
-    FlowRouter.go 'login'
+    FlowRouter.go '/login'
     # redirect('/login')
 
 alreadyLoggedIn = () ->
-  if Meteor.userId() or Meteor.loggingIn()
+  if Meteor.userId()
     console.log "alredy logged"
     FlowRouter.go '/'
     # redirect('/login')
@@ -45,15 +45,19 @@ FlowRouter.route '/login',
 FlowRouter.route '/logoutUser',
   # name: 'logoutUser'
   action: (params) ->
-    console.log "start logout"
+    console.log "start logout", Meteor.userId()
+    # Meteor.logout()
+    # console.log "after logout", Meteor.userId()
+    # FlowRouter.go '/login'
     Meteor.logout()
+    console.log "after logout", Meteor.userId()
     FlowRouter.go '/login'
     # Meteor.logout (err) ->
     #   console.log err if err
-    #   console.log "after logout"
+    #   console.log "after logout", Meteor.userId()
     #   # Session.set 'ses', false
-    #   FlowRouter.go 'login'
-    console.log "after after"
+    #   # window.location = "/login"
+    #   FlowRouter.go '/login'
 
 FlowRouter.route '/register',
   name: 'register'
