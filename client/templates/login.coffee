@@ -8,4 +8,4 @@ Template.login.events
       if result
         console.log "logged in"
         Meteor.loginWithToken(result);
-        Router.go("/")
+        FlowRouter.go("/")
