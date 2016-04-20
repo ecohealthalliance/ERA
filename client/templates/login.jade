@@ -1,8 +1,16 @@
 template(name='login')
-  h2 Login
-  p Email: 
-    input#email(type=email, name="email")
-  p Password:
-    input#password(type="password", name="password")
-  p
-    input#login(type="submit", value="Login")
+  .login
+    .container-fluid
+      .row
+        .logo
+        .login-container.col-xs-10.col-xs-offset-1.col-sm-8.col-sm-offset-2.col-md-4.col-md-offset-4
+          h1 Login
+          .form-group
+            label(for="email") Email
+            input.form-control#email(type="email", name="email")
+
+          .form-group
+            label(for="password") Password
+            input.form-control#password(type="password", name="password")
+
+          button.btn.btn-primary.btn-block#login(type="submit") Login

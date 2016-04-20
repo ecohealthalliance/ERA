@@ -1,0 +1,43 @@
+.panels
+  display flex
+  align-items stretch
+  margin-bottom 40px
+  background $border-gray
+
+.info-panel
+  flex 1 1 0
+  background-color #FFF
+  cursor pointer
+  margin-right 1px
+  color $gray-m
+  text-shadow 0 1px 0 rgba(255,255,255,.2)
+  border-bottom 5px solid $border-gray
+  .mdi
+    font-size 2.5em
+  &:last-of-type
+    border-right 0
+  &:hover
+    background-color darken(@background-color, 5%)
+  &.active
+    color $gray-d
+    border-bottom-color $primary
+    h2
+      color $gray-d
+
+.panel-header
+  padding 10px 20px
+  display flex
+  align-items middle
+  justify-content space-between
+  h2
+    display inline-block
+    margin 0 0 0 5px
+    text-transform uppercase
+    font-weight bold
+    font-size 1.75em
+
+.pane
+  width 80%
+  margin 0 auto
+  &:not(.visible)
+    display none

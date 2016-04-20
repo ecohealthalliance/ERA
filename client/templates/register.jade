@@ -1,8 +1,20 @@
 template(name="register")
-  h2 Register
-  p Email: 
-    input#email(type="email", name="email")
-  p Password:
-    input#password(type="password", name="password")
-  p
-    input#register(type="submit", value="Register")
+  .login
+    .container-fluid
+      .row
+        .logo
+        .login-container.col-xs-10.col-xs-offset-1.col-sm-8.col-sm-offset-2.col-md-4.col-md-offset-4
+          h1 Register
+          .form-group
+            label(for="email") Email
+            input.form-control#email(type="email", name="email")
+
+          .form-group
+            label(for="password") Password
+            input.form-control#password(type="password", name="password")
+
+          .form-group
+            label(for="password") Confirm Password
+            input.form-control#password(type="password", name="passwordConfirm")
+
+          button.btn.btn-primary.btn-block#register(type="submit") Register

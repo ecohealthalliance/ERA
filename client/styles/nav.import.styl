@@ -1,0 +1,47 @@
+$apps = flirt birt
+
+nav
+  flex 1 1 5%
+  min-width 100px
+  background white
+  justify-content center
+  border-right 5px solid $border-gray
+  h1
+    background url(images/eha-logo.svg) 40% 50% no-repeat
+    background-size cover
+    height 200px
+    text-indent -9999px
+    margin 0
+    margin-top -30px
+  ul
+    margin-top 20px
+  li
+    position relative
+    display block
+    &.active
+      &::after
+        position absolute
+        content ''
+        top 0
+        bottom 0
+        right -5px
+        width 8px
+        background $primary
+        border-top-left-radius 2px
+        border-bottom-left-radius 2px
+  a
+    display block
+    min-height 100px
+    max-width 70%
+    margin-left auto
+    margin-right auto
+    background-size 70%
+    text-indent -9999px
+  a.no-indent
+    text-indent 0px
+  for $app in $apps
+    .{$app}
+      background url('images/'+ $app + '-logo.svg') 40% 50% no-repeat
+
+  .birt
+    background-size 85%
