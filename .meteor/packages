@@ -36,3 +36,4 @@ accounts-ui
 sgi:sprintfjs
 http
 accounts-password
+flawless:meteor-toastr

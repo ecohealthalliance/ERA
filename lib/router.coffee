@@ -42,7 +42,7 @@ FlowRouter.route '/login',
     BlazeLayout.render 'layout',
       dashboard: 'login'
 
-FlowRouter.route '/logoutUser',
+FlowRouter.route '/logoutuser',
   # name: 'logoutUser'
   action: (params) ->
     console.log "start logout", Meteor.userId()

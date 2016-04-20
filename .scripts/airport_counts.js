@@ -10,7 +10,7 @@ db.legs.aggregate([
       departureCount: {$sum: 1}
     }
   }
-]).result.forEach(function(airport){
+]).forEach(function(airport){
   db.airportCounts.insert(airport)
 });
 
@@ -22,7 +22,7 @@ db.legs.aggregate([
       arrivalCount: {$sum: 1}
     }
   }
-]).result.forEach(function(airport){
+]).forEach(function(airport){
   db.airportCounts.update({_id: airport._id}, {$set: {arrivalCount: airport.arrivalCount}})
 });
 
@@ -36,6 +36,6 @@ db.airportCounts.aggregate(
          }
      }
    ]
-).result.forEach(function(airport){
+).forEach(function(airport){
   db.airportCounts.update({_id: airport._id}, {$set: {total: airport.totalAmount}})
 })
