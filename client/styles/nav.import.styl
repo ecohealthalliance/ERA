@@ -1,11 +1,14 @@
 $apps = flirt birt
 
 nav
+  display flex
+  flex-flow column
   flex 1 1 5%
   min-width 100px
   background white
   justify-content center
   border-right 5px solid $border-gray
+
   h1
     background url(images/eha-logo.svg) 40% 50% no-repeat
     background-size cover
@@ -13,8 +16,12 @@ nav
     text-indent -9999px
     margin 0
     margin-top -30px
+
   ul
     margin-top 20px
+    height 100%
+    flex-grow 1
+
   li
     position relative
     display block
@@ -29,16 +36,30 @@ nav
         background $primary
         border-top-left-radius 2px
         border-bottom-left-radius 2px
-  a
+
+    a
+      display block
+      min-height 100px
+      max-width 70%
+      margin-left auto
+      margin-right auto
+      background-size 70%
+      text-indent -9999px
+
+  .log-out
     display block
-    min-height 100px
-    max-width 70%
-    margin-left auto
-    margin-right auto
-    background-size 70%
-    text-indent -9999px
-  a.no-indent
-    text-indent 0px
+    color $gray-d
+    font-size 2em
+    text-align center
+    padding 20px 0 30px 5px
+    border-top 2px solid $border-gray
+    &:hover
+      background lighten($warning, 20%)
+      color white
+    &:active
+      background $warning
+
+
   for $app in $apps
     .{$app}
       background url('images/'+ $app + '-logo.svg') 40% 50% no-repeat

@@ -6,5 +6,5 @@ template(name="nav")
         a.flirt(href="{{pathFor 'flirt'}}") FLIRT
       li(class="{{isActiveRoute 'birt'}}")
         a.birt(href="{{pathFor 'birt'}}") BIRT
-      li
-        a.no-indent(href="logoutuser") Logout
+    a.log-out(href="logoutuser")
+      i.mdi.mdi-logout
