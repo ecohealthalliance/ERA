@@ -5,5 +5,5 @@ template(name="layout")
   .page-wrapper
     if currentUser
       +nav
-    .main-content
+    .main-content(class="{{#unless currentUser}} main-content--login {{/unless}}")
       +Template.dynamic template=dashboard

@@ -2,6 +2,7 @@
 html
 body
   width 100%
+  height 100%
   background $gray-ll
   color #333
 
@@ -14,13 +15,12 @@ h3
   font-family $header-font
   color $gray-md
 
-.page-wrapper
-  display flex
-  align-items stretch
-  height 100vh
-
 .main-content
-  flex 1 1 95%
+  width calc(100% - 100px)
+  margin-left 100px
+  &.main-content--login
+    margin-left 0
+    width 100%
 
 .dash-row-main
   margin-top 50px
