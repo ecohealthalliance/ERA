@@ -1,5 +1,6 @@
 Template.register.events
-  'click #register' : (evt, instance) ->
+  'submit #register' : (event, instance) ->
+    event.preventDefault()
     email = $('#email').val()
     password  = $('#password').val()
     Meteor.call 'registerNewUser', email, password, (err, result) ->

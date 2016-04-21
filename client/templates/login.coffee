@@ -1,5 +1,6 @@
 Template.login.events
-  'click #login' : (evt, instance) ->
+  'submit #login' : (event, instance) ->
+    event.preventDefault()
     email = $('#email').val()
     password  = $('#password').val()
     Meteor.call 'loginUser', email, password, (err, result) ->
