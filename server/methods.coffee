@@ -2,7 +2,7 @@ Meteor.startup () ->
   @Future = Npm.require('fibers/future');
 
 initiateAdminAuthentication = (callback) ->
-  initiateAuthentication "amAdmin", "zBLPuWe+ylyqt0", (result) ->
+  initiateAuthentication Meteor.settings.open_AM_admin, Meteor.settings.open_AM_password, (result) ->
     callback(result)
 
 initiateAuthentication = (email, password, callback) ->
