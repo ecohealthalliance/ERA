@@ -1,8 +1,10 @@
-Meteor.startup () ->
-  @Future = Npm.require('fibers/future');
+open_AM_admin = Meteor.settings.open_AM_admin
+open_AM_password = Meteor.settings.open_AM_password
+
+Future = Npm.require('fibers/future')
 
 initiateAdminAuthentication = (callback) ->
-  initiateAuthentication "amAdmin", "zBLPuWe+ylyqt0", (result) ->
+  initiateAuthentication open_AM_admin, open_AM_password, (result) ->
     callback(result)
 
 initiateAuthentication = (email, password, callback) ->
@@ -51,7 +53,7 @@ createUser = (userCreateData, callback) ->
 
 
 Meteor.methods
-  getAnalyticsData: () =>
+  getAnalyticsData: () ->
     future = new Future()
     jwtClient = new GoogleApis.auth.JWT(
       Meteor.settings.client_email,
@@ -60,13 +62,13 @@ Meteor.methods
       ['https://www.googleapis.com/auth/analytics.readonly'],
       null
     )
-    jwtClient.authorize (err, tokens)=>
+    jwtClient.authorize (err, tokens) ->
       if err
         console.log "Error authorizing"
         console.log err
         return
 
-      analytics = GoogleApis.analytics('v3');
+      analytics = GoogleApis.analytics('v3')
       async.parallel [
         (callback) ->
           analytics.data.ga.get(
@@ -111,40 +113,40 @@ Meteor.methods
           })
     return future.wait()
 
-  registerNewUser: (email, password) =>
+  registerNewUser: (email, password) ->
     initiateAdminAuthentication (authData) ->
       authenticate authData, (userData) ->
         userData.data = {
-            "username": email,
-            "userpassword": password,
-            "mail":email
+          "username": email,
+          "userpassword": password,
+          "mail":email
         }
         createUser userData, (result) ->
           console.log result
 
-  loginUser: (email, password) =>
+  loginUser: (email, password) ->
     future = new Future()
     initiateAuthentication email, password, (authData) ->
       authenticate authData, (userData) ->
-        # # even though actual authentication takes place on the OpenAM server, we
-        # # will also log the user in locally to setup the base session.  That is
-        # # why it is important to store the current password in the local db as well.
-        # Meteor.loginWithPassword(email, password)
+        # Even though actual authentication takes place on the OpenAM server, we
+        # will also log the user in locally to setup the base session. That is
+        # why it is important to store the current password in the local db as well.
         tokenObject =
           token: userData.headers.iplanetDirectoryPro
           when: new Date
         user = Accounts.findUserByEmail(email)
+        unless user
+          Accounts.createUser { email: email, password: password }
+          user = Accounts.findUserByEmail(email)
         Accounts._insertLoginToken(user._id, tokenObject)
-        # Meteor.loginWithToken(tokenObject);
-        # console.log "userData:",tokenObject
-        # console.log "user: ", user
-        future["return"](tokenObject.token)
+        future.return(tokenObject.token)
     future.wait()
 
-  changeUserPassword: (currentPassword, newPassword) =>
-    # make sure that we change the password in both OpenAM and in the Meteor db (even thought we don't use the local password for anything...)
+  changeUserPassword: (currentPassword, newPassword) ->
+    # Make sure that we change the password in both OpenAM and in the Meteor db
+    # (even thought we don't use the local password for anything...)
     console.log "implement this"
 
-  logoutUser: () =>
+  logoutUser: () ->
     Accounts.logout()
     #logout of openAM also

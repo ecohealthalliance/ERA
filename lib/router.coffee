@@ -68,4 +68,3 @@ FlowRouter.route '/register',
 if Meteor.isClient
   Meteor.autorun () ->
     console.log "change", Meteor.userId()
-
