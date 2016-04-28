@@ -4,8 +4,7 @@ open_AM_password = Meteor.settings.open_AM_password
 Future = Npm.require('fibers/future')
 
 initiateAdminAuthentication = (callback) ->
-  initiateAuthentication open_AM_admin, open_AM_password, (result) ->
-    callback(result)
+  initiateAuthentication open_AM_admin, open_AM_password, callback
 
 initiateAuthentication = (email, password, callback) ->
   #in order to start making requests to the OpenAM API we first need to get a base request framework and token
