@@ -1,8 +1,8 @@
 Template.login.events
   'submit #login' : (event, instance) ->
     event.preventDefault()
-    email = $('#email').val()
-    password  = $('#password').val()
+    email = instance.$('#email').val()
+    password  = instance.$('#password').val()
     Meteor.call 'loginUser', email, password, (err, result) ->
       console.log 'ERROR: ', err if err
       console.log "login result", result

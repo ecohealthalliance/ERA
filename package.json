@@ -1,0 +1,11 @@
+{
+  "name": "app",
+  "private": true,
+  "scripts": {
+    "start": "meteor --port 3400 --settings settings.json"
+  },
+  "dependencies": {
+    "autoprefixer": "^6.3.1",
+    "faker": "^3.0.1"
+  }
+}
