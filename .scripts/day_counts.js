@@ -43,7 +43,7 @@ var dayCounts = db.legs.aggregate([
       }
     }
   }
-])
+]).toArray()
 db.dayCounts.remove({});
 db.dayCounts.insert({day: "Monday", count: dayCounts.result[0].monday})
 db.dayCounts.insert({day: "Tuesday", count: dayCounts.result[0].tuesday})
