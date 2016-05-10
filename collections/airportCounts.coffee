@@ -1,5 +1,6 @@
 if Meteor.isServer
   flirtDb = new MongoInternals.RemoteCollectionDriver(process.env.FLIRT_MONGO_URL);
+  console.log process.env.FLIRT_MONGO_URL
   @AirportCounts = new Meteor.Collection("airportCounts", { _driver: flirtDb });
 
 if Meteor.isClient
