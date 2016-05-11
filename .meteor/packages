@@ -12,7 +12,6 @@ blaze-html-templates    # Compile .html files into Meteor Blaze views
 standard-minifiers      # JS/CSS minifiers run for production mode
 
 coffeescript
-stylus
 mquandalle:jade
 
 highcharts-container

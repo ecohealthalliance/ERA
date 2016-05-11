@@ -2,13 +2,6 @@ if Meteor.isClient
 
   BlazeLayout.setRoot('body')
 
-
-  FlowRouter.route '/register',
-   name: 'register'
-   action: ->
-     BlazeLayout.render 'register',
-       dashboard: 'register'
-
   FlowRouter.route '/',
     action: (params) ->
       Meteor.autorun ->
@@ -17,7 +10,6 @@ if Meteor.isClient
         else
           BlazeLayout.render 'login'
 
-
   loggedIn = FlowRouter.group
     triggersEnter: [ ->
       unless Meteor.loggingIn() or Meteor.userId()
@@ -25,6 +17,10 @@ if Meteor.isClient
         FlowRouter.redirect '/'
     ]
 
+  loggedIn.route '/register',
+    action: (params) ->
+      BlazeLayout.render 'register',
+        dashboard: 'register'
 
   loggedIn.route '/flirt',
     action: (params) ->
