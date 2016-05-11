@@ -41,7 +41,7 @@ var dayCounts = db.legs.aggregate([
       "sunday":{
         "$sum":"$sundayNum"
       }
-    }
+    }   
   }
 ]).toArray()
 db.dayCounts.remove({});

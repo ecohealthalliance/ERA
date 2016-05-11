@@ -19,7 +19,7 @@ highcharts-container
 highcharts:highcharts-meteor
 
 twbs:bootstrap
-#russel:google-api-meteor-client
+stylus
 peerlibrary:async
 reactive-var
 dapearce:material-icons
