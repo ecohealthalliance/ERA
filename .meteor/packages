@@ -23,7 +23,6 @@ mquandalle:jade
 #highcharts-container
 twbs:bootstrap
 stylus
-russel:google-api-meteor-client
 peerlibrary:async
 reactive-var
 dapearce:material-icons

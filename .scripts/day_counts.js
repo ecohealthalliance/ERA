@@ -41,17 +41,17 @@ var dayCounts = db.legs.aggregate([
       "sunday":{
         "$sum":"$sundayNum"
       }
-    }
+    }   
   }
-])
+]).toArray()
 db.dayCounts.remove({});
-db.dayCounts.insert({day: "Monday", count: dayCounts.result[0].monday})
-db.dayCounts.insert({day: "Tuesday", count: dayCounts.result[0].tuesday})
-db.dayCounts.insert({day: "Wednesday", count: dayCounts.result[0].wednesday})
-db.dayCounts.insert({day: "Thursday", count: dayCounts.result[0].thursday})
-db.dayCounts.insert({day: "Friday", count: dayCounts.result[0].friday})
-db.dayCounts.insert({day: "Saturday", count: dayCounts.result[0].saturday})
-db.dayCounts.insert({day: "Sunday", count: dayCounts.result[0].sunday})
+db.dayCounts.insert({day: "Monday", count: dayCounts[0].monday})
+db.dayCounts.insert({day: "Tuesday", count: dayCounts[0].tuesday})
+db.dayCounts.insert({day: "Wednesday", count: dayCounts[0].wednesday})
+db.dayCounts.insert({day: "Thursday", count: dayCounts[0].thursday})
+db.dayCounts.insert({day: "Friday", count: dayCounts[0].friday})
+db.dayCounts.insert({day: "Saturday", count: dayCounts[0].saturday})
+db.dayCounts.insert({day: "Sunday", count: dayCounts[0].sunday})
 
 // db.legs.dropIndex({day1:1})
 // db.legs.dropIndex({day2:1})
