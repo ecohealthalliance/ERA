@@ -1,3 +1,5 @@
+Highcharts = require('highcharts')
+
 FlightCounts = ()->
   @FlightCounts
 DayCounts = ()->

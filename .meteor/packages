@@ -19,8 +19,6 @@ insecure                # Allow all DB writes from clients (for prototyping)
 coffeescript
 mquandalle:jade
 
-
-#highcharts-container
 twbs:bootstrap
 stylus
 peerlibrary:async
@@ -32,3 +30,4 @@ arillo:flow-router-helpers
 zimme:active-route
 standard-minifier-css
 standard-minifier-js
+

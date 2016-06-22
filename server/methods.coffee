@@ -1,5 +1,5 @@
 Meteor.startup () =>
-  @Future = Npm.require('fibers/future');
+  # @Future = Npm.require('fibers/future');
 
 Meteor.methods
   getAnalyticsData: () =>
