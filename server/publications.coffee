@@ -6,7 +6,7 @@ Meteor.publish 'dayCounts', =>
   @DayCounts.find({},{sort: {date: 1}})
 
 Meteor.publish 'birdCounts', =>
-  @BirdCounts.find({count: {$gt: 45}})
+  @BirdCounts.find({count: {$gt: 15000000}})
 
 Meteor.publish 'airportCounts', =>
   @AirportCounts.find({total: {$gt: 100000}})

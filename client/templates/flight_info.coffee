@@ -85,9 +85,11 @@ CreateFlightCountChart = () ->
             data: _.pluck(cleanDates,'count')
         ]
 
-Template.flightInfo.onCreated ->
-  Meteor.defer () =>
-    Meteor.autorun () =>
-      CreateFlightCountChart()
-      CreateDaysChart()
-      CreateAirportChart()
+Template.flightInfo.onRendered ->
+  @subscribe 'flightCounts'
+  @subscribe 'dayCounts'
+  @subscribe 'airportCounts'
+  @autorun () =>
+    CreateFlightCountChart()
+    CreateDaysChart()
+    CreateAirportChart()
