@@ -1,5 +1,3 @@
-Highcharts = require('highcharts')
-
 FlightCounts = ()->
   @FlightCounts
 DayCounts = ()->
@@ -48,10 +46,10 @@ CreateAirportChart = () ->
         title:
           text: 'Arrivals and Departures'
       ,
-      plotOptions: 
-        series: 
+      plotOptions:
+        series:
           stacking: 'normal',
-        column: 
+        column:
           pointPadding: 0.2,
           borderWidth: 0
       series: [
@@ -61,7 +59,7 @@ CreateAirportChart = () ->
           name: 'Departures',
           data: departureData
       ]
-  
+
 CreateFlightCountChart = () ->
   counts = FlightCounts().find().fetch()
   cleanDates = _.map counts, (item) ->
