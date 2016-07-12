@@ -6,11 +6,11 @@ Template.flirt.helpers
   flightCountInfo: ->
     "flights added since 3/3/2016"
   flirtActiveUsers: =>
-    # Template.instance().userData.get().today?["ga:sessions"]
+    Template.instance().userData.get().today?["ga:sessions"]
   flirtUsers30: =>
-    # Template.instance().userData.get().ThirtyDays?.monthlyTotals?["ga:sessions"]
+    Template.instance().userData.get().ThirtyDays?.monthlyTotals?["ga:sessions"]
   flirtSources: =>
-    # Template.instance().userData.get().ThirtyDays?.sources
+    Template.instance().userData.get().ThirtyDays?.sources
   flirtDowntime: ->
     "2 horus 17 minutes"
   flirtDowntime: ->
@@ -26,3 +26,8 @@ Template.flirt.helpers
 Template.flirt.onCreated ->
   @userData = new ReactiveVar {}
   @paneState = new ReactiveVar 'flight-chart'
+  Meteor.autorun () =>
+    Meteor.call 'getAnalyticsData', (err, result) =>
+      console.log(result)
+      @userData.set result
+      # console.log Template.instance.userData
