@@ -4,7 +4,9 @@ Template.flirt.helpers
   flightCounts: ->
     "123,673"
   flightCountInfo: ->
-    "flights added since 3/3/2016"
+    "Total flights: " + Template.instance().flightCounts.get()
+  legCountInfo: ->
+    "Total legs: " + Template.instance().legCounts.get()
   flirtActiveUsers: =>
     Template.instance().userData.get().today?["ga:sessions"]
   flirtUsers30: =>
@@ -25,9 +27,14 @@ Template.flirt.helpers
 
 Template.flirt.onCreated ->
   @userData = new ReactiveVar {}
+  @flightCounts = new ReactiveVar {}
+  @legCounts = new ReactiveVar {}
   @paneState = new ReactiveVar 'flight-chart'
   Meteor.autorun () =>
     Meteor.call 'getAnalyticsData', (err, result) =>
-      console.log(result)
       @userData.set result
-      # console.log Template.instance.userData
+    Meteor.call 'getFlightCounts', (err, result) =>
+      @flightCounts.set result
+    Meteor.call 'getLegCounts', (err, result) =>
+      @legCounts.set result
+

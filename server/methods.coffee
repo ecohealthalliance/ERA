@@ -2,7 +2,14 @@ Meteor.startup () =>
   @Future = Npm.require('fibers/future');
   @GoogleApis = Npm.require('googleapis')
 
+
 Meteor.methods
+  getFlightCounts: () =>
+    @FlightTotals.find().count()
+
+  getLegCounts: () =>
+    @LegTotals.find().count()
+
   getAnalyticsData: () =>
     # # url = "https://analyticsreporting.googleapis.com/v4/reports:batchGet"
     # # params = 
