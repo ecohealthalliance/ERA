@@ -1,8 +1,10 @@
 //script to get the number of flights that occur on a specific day.  To determine this we
 //check to see if the specific day lies within the effectiveDate and discontinuedDate for each record
 //Creates a new collection called flightCounts that is used for calculations
+
 db.legs.ensureIndex({effectiveDate: 1})
 db.legs.ensureIndex({discontinuedDate: -1})
+
 var startDate = db.legs.find().sort({effectiveDate: 1}).limit(1).toArray()[0].effectiveDate
 startDate.setUTCHours(0,0,0,0)
 var endDate = db.legs.find().sort({discontinuedDate: -1}).limit(1).toArray()[0].discontinuedDate
@@ -28,4 +30,4 @@ while(startDate < endDate){
 //   }
 // })
 
-// printjson(averageFlights )
+// printjson(averageFlights)
