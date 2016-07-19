@@ -1,29 +1,29 @@
-BirdCounts = ()->
+BirdCounts = ->
   @BirdCounts
 
-CreateMigrationChart = () ->
+CreateMigrationChart = ->
   birds = BirdCounts().find().fetch()
   Highcharts.chart 'migration-chart',
     chart:
-        type: 'bar'
+      type: 'bar'
     ,
     title:
-        text: 'Bird count'
+      text: 'Bird count'
     ,
     xAxis:
-        name: 'Species',
-        categories: _.pluck(birds,'bird')
+      name: 'Species',
+      categories: _.pluck(birds,'bird')
     ,
     yAxis:
-        title:
-            text: 'Number of sightings'
+      title:
+        text: 'Number of sightings'
     ,
     series: [
-        name: 'Sightings',
-        data: _.pluck(birds,'count')
+      name: 'Sightings',
+      data: _.pluck(birds,'count')
     ]
 
 Template.migrations.onRendered ->
   @subscribe 'birdCounts'
-  @autorun () =>
+  @autorun ->
     CreateMigrationChart()

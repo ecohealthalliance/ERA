@@ -1,44 +1,44 @@
-Meteor.startup () =>
-  @Future = Npm.require('fibers/future');
+Meteor.startup =>
+  @Future = Npm.require('fibers/future')
   @GoogleApis = Npm.require('googleapis')
 
 
 Meteor.methods
-  getFlightCounts: () =>
+  getFlightCounts: =>
     @FlightTotals.find().count()
 
-  getLegCounts: () =>
+  getLegCounts: =>
     @LegTotals.find().count()
 
-  getAnalyticsData: () =>
+  getAnalyticsData: ->
     # # url = "https://analyticsreporting.googleapis.com/v4/reports:batchGet"
-    # # params = 
-    # #     data: 
+    # # params =
+    # #     data:
     # #         'viewId': 'ga:114507084'
     # #         'dateRanges': [{'startDate': 'today', 'endDate': 'today'}]
     # #         'metrics': [{'expression': 'ga:users'}]
     # # Meteor.call("POST", url)
     future = new Future()
     jwtClient = new GoogleApis.auth.JWT(
-      Meteor.settings.private.ga_private_key.client_email, 
-      null, 
-      Meteor.settings.private.ga_private_key.private_key, 
-      ['https://www.googleapis.com/auth/analytics.readonly'], 
+      Meteor.settings.private.ga_private_key.client_email,
+      null,
+      Meteor.settings.private.ga_private_key.private_key,
+      ['https://www.googleapis.com/auth/analytics.readonly'],
       null
     )
-    jwtClient.authorize (err, tokens)=>
+    jwtClient.authorize (err, tokens) ->
       if err
         console.log "Error authorizing"
         console.log err
         return
 
-      analytics = GoogleApis.analytics('v3');
+      analytics = GoogleApis.analytics('v3')
       async.parallel [
         (callback) ->
           analytics.data.ga.get(
-            { 
-              'ids': 'ga:114507084', 
-              'metrics':'ga:sessions', 
+            {
+              'ids': 'ga:114507084',
+              'metrics':'ga:sessions',
               'start-date': 'today',
               'end-date': 'today',
               'auth': jwtClient
@@ -52,9 +52,9 @@ Meteor.methods
         ,
         (callback) ->
           analytics.data.ga.get(
-            { 
-              'ids': 'ga:114507084', 
-              'metrics':'ga:sessions', 
+            {
+              'ids': 'ga:114507084',
+              'metrics':'ga:sessions',
               'dimensions': 'ga:source,ga:keyword',
               'start-date': '30daysAgo',
               'end-date': 'today',
@@ -67,7 +67,9 @@ Meteor.methods
               sources = _.map response.rows, (row) ->
                   source: row[0]
                   count: row[2]
-              callback(err, {sources: sources, monthlyTotals: response.totalsForAllResults } )
+              callback err,
+                sources: sources
+                monthlyTotals: response.totalsForAllResults
           )
         ],
         (err, results) ->
@@ -77,5 +79,3 @@ Meteor.methods
             ThirtyDays: results[1]
           })
     return future.wait()
-
-
