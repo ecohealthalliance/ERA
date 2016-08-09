@@ -2,7 +2,7 @@ Template.infoPanel.onCreated ->
   @paneState = @data.paneState
 
 Template.infoPanel.helpers
-  active: ()->
+  active: ->
     Template.instance().paneState.get() == @chart
 
 Template.infoPanel.events

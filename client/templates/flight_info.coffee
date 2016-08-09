@@ -1,33 +1,33 @@
-FlightCounts = ()->
+FlightCounts = ->
   @FlightCounts
-DayCounts = ()->
+DayCounts = ->
   @DayCounts
-AirportCounts = ()->
+AirportCounts = ->
   @AirportCounts
 
-CreateDaysChart = () ->
+CreateDaysChart = ->
   counts = DayCounts().find().fetch()
   Highcharts.chart 'day-chart',
       chart:
-          type: 'bar'
+        type: 'bar'
       ,
       title:
-          text: 'Flights per day of week'
+        text: 'Flights per day of week'
       ,
       xAxis:
-          name: 'Day of week',
-          categories: _.pluck(counts,'day')
+        name: 'Day of week',
+        categories: _.pluck(counts,'day')
       ,
       yAxis:
-          title:
-              text: 'Number of Flights'
+        title:
+          text: 'Number of Flights'
       ,
       series: [
-          name: 'Flights per day of week',
-          data: _.pluck(counts,'count')
+        name: 'Flights per day of week',
+        data: _.pluck(counts,'count')
       ]
 
-CreateAirportChart = () ->
+CreateAirportChart = ->
   airports = AirportCounts().find().fetch()
   arrivalData = _.pluck(airports, "arrivalCount")
   departureData = _.pluck(airports, "departureCount")
@@ -40,7 +40,7 @@ CreateAirportChart = () ->
       ,
       xAxis:
         name: 'Airport',
-        categories: _.pluck(airports,'_id')
+        categories: _.pluck(airports, '_id')
       ,
       yAxis:
         title:
@@ -60,36 +60,36 @@ CreateAirportChart = () ->
           data: departureData
       ]
 
-CreateFlightCountChart = () ->
+CreateFlightCountChart = ->
   counts = FlightCounts().find().fetch()
   cleanDates = _.map counts, (item) ->
-    return {date: item.date.toLocaleDateString(), count: item.count}
+    return { date: item.date.toLocaleDateString(), count: item.count }
   Highcharts.chart 'flight-chart',
         chart:
-            type: 'line',
-            zoomType: 'x'
+          type: 'line',
+          zoomType: 'x'
         ,
         title:
-            text: 'Flights per day'
+          text: 'Flights per day'
         ,
         xAxis:
-            name: 'Date',
-            categories: _.pluck(cleanDates,'date')
+          name: 'Date',
+          categories: _.pluck(cleanDates,'date')
         ,
         yAxis:
-            title:
-                text: 'Number of Flights'
+          title:
+            text: 'Number of Flights'
         ,
         series: [
-            name: 'Flights per day',
-            data: _.pluck(cleanDates,'count')
+          name: 'Flights per day',
+          data: _.pluck(cleanDates,'count')
         ]
 
 Template.flightInfo.onRendered ->
   @subscribe 'flightCounts'
   @subscribe 'dayCounts'
   @subscribe 'airportCounts'
-  @autorun () =>
+  @autorun ->
     CreateFlightCountChart()
     CreateDaysChart()
     CreateAirportChart()

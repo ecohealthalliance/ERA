@@ -5,7 +5,6 @@
     # console.log Template.instance.userData
 
 
-    
 #   gapi.analytics.ready ->
 
 #     ###*

@@ -1,16 +1,16 @@
-Meteor.startup () =>
-  @Future = Npm.require('fibers/future');
+Meteor.startup =>
+  @Future = Npm.require('fibers/future')
   @GoogleApis = Npm.require('googleapis')
 
 
 Meteor.methods
-  getFlightCounts: () =>
+  getFlightCounts: =>
     @FlightTotals.find().count()
 
-  getLegCounts: () =>
+  getLegCounts: =>
     @LegTotals.find().count()
 
-  getAnalyticsData: () =>
+  getAnalyticsData: ->
     # # url = "https://analyticsreporting.googleapis.com/v4/reports:batchGet"
     # # params =
     # #     data:
@@ -26,13 +26,13 @@ Meteor.methods
       ['https://www.googleapis.com/auth/analytics.readonly'],
       null
     )
-    jwtClient.authorize (err, tokens)=>
+    jwtClient.authorize (err, tokens) ->
       if err
         console.log "Error authorizing"
         console.log err
         return
 
-      analytics = GoogleApis.analytics('v3');
+      analytics = GoogleApis.analytics('v3')
       async.parallel [
         (callback) ->
           analytics.data.ga.get(
@@ -67,7 +67,9 @@ Meteor.methods
               sources = _.map response.rows, (row) ->
                   source: row[0]
                   count: row[2]
-              callback(err, {sources: sources, monthlyTotals: response.totalsForAllResults } )
+              callback err,
+                sources: sources
+                monthlyTotals: response.totalsForAllResults
           )
         ],
         (err, results) ->
