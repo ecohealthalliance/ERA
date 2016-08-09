@@ -18,3 +18,9 @@ FlowRouter.route '/birt',
   action: (params) ->
     BlazeLayout.render 'layout',
       dashboard: 'birt'
+
+FlowRouter.route '/eidr',
+  name: 'eidr'
+  action: (params) ->
+    BlazeLayout.render 'layout',
+      dashboard: 'eidr'
