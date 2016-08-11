@@ -85,11 +85,23 @@ CreateFlightCountChart = ->
           data: _.pluck(cleanDates,'count')
         ]
 
+Template.flightInfo.onCreated ->
+  @flightCountsSubHandle = @subscribe 'flightCounts'
+  @dayCountsSubHandle = @subscribe 'dayCounts'
+  @airportCountsSubHandle = @subscribe 'airportCounts'
+
 Template.flightInfo.onRendered ->
-  @subscribe 'flightCounts'
-  @subscribe 'dayCounts'
-  @subscribe 'airportCounts'
-  @autorun ->
-    CreateFlightCountChart()
-    CreateDaysChart()
-    CreateAirportChart()
+  # Render placeholders
+  CreateFlightCountChart()
+  CreateDaysChart()
+  CreateAirportChart()
+  # Re-render using the actual data
+  @autorun =>
+    if @flightCountsSubHandle.ready()
+      CreateFlightCountChart()
+  @autorun =>
+    if @dayCountsSubHandle.ready()
+      CreateDaysChart()
+  @autorun =>
+    if @airportCountsSubHandle.ready()
+      CreateAirportChart()
