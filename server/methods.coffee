@@ -10,6 +10,10 @@ Meteor.methods
   getLegCounts: =>
     @LegTotals.find().count()
 
+  getArticleCounts: =>
+    console.log 'inside article method call', @ArticleTotals
+    @ArticleTotals
+
   getAnalyticsData: ->
     # # url = "https://analyticsreporting.googleapis.com/v4/reports:batchGet"
     # # params =
