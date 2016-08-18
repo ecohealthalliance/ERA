@@ -14,3 +14,9 @@ Meteor.publish 'airportCounts', =>
 
 Meteor.publish 'articleCounts', =>
   @AirportCounts.find()
+
+Meteor.publish 'diseaseInfo', (disease) =>
+  console.log "disease",disease
+  diseaseInfo = @ArticleCounts.find({"subject.diseaseLabels": disease}, {sourceDate: 1})
+  console.log diseaseInfo.fetch()
+  diseaseInfo

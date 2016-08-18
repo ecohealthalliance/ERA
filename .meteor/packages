@@ -31,3 +31,5 @@ zimme:active-route
 standard-minifier-css
 standard-minifier-js
 
+meteorhacks:aggregate
+peppelg:bootstrap-3-modal

@@ -2,6 +2,7 @@ Meteor.startup =>
   @Future = Npm.require('fibers/future')
   @GoogleApis = Npm.require('googleapis')
 
+diseases = null
 
 Meteor.methods
   getFlightCounts: =>
@@ -11,17 +12,30 @@ Meteor.methods
     @LegTotals.find().count()
 
   getArticleCounts: =>
-    console.log 'inside article method call', @ArticleTotals
-    @ArticleTotals
+    @ArticleCounts.find().count()
+
+  getDiseaseInfo: (disease) =>
+    diseaseInfo = @ArticleCounts.aggregate([
+        {$match: {"subject.diseaseLabels": disease}},
+        {$project : { day : {$substr: ["$promedDate", 0, 10] }}},
+        {$group   : { _id : "$day",  number : { $sum : 1 }}},
+        {$sort    : { _id : 1 } }
+    ])
+    diseaseInfo
+
+  getDiseaseNames: =>
+    if !diseases
+      diseases = @ArticleCounts.find({},
+                    fields: 'subject.diseaseLabels': true
+                  ).fetch().map((x) ->
+                    x.subject.diseaseLabels
+                  )
+      diseases = _.flatten(diseases)
+      diseases = _.uniq(diseases).sort()
+    diseases
+
 
   getAnalyticsData: ->
-    # # url = "https://analyticsreporting.googleapis.com/v4/reports:batchGet"
-    # # params =
-    # #     data:
-    # #         'viewId': 'ga:114507084'
-    # #         'dateRanges': [{'startDate': 'today', 'endDate': 'today'}]
-    # #         'metrics': [{'expression': 'ga:users'}]
-    # # Meteor.call("POST", url)
     future = new Future()
     jwtClient = new GoogleApis.auth.JWT(
       Meteor.settings.private.ga_private_key.client_email,
