@@ -11,3 +11,10 @@ Meteor.publish 'birdCounts', =>
 
 Meteor.publish 'airportCounts', =>
   @AirportCounts.find({total: {$gt: 100000}})
+
+Meteor.publish 'articleCounts', =>
+  @AirportCounts.find()
+
+Meteor.publish 'diseaseInfo', (disease) =>
+  diseaseInfo = @ArticleCounts.find({"subject.diseaseLabels": disease}, {sourceDate: 1})
+  diseaseInfo
