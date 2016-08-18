@@ -27,8 +27,7 @@ Meteor.methods
                 ).fetch().map((x) ->
                   x.subject.diseaseLabels
                 )
-    diseases = _.flatten(diseases)
-    _.uniq(diseases).sort()
+    _.uniq(_.flatten(diseases)).sort()
   )
 
 

@@ -13,7 +13,6 @@ Template.articles.helpers
 
 Template.articles.events
   "change #diseases": (event) ->
-    console.log $(event.target).val()
     Modal.show("loadingModal")
     Meteor.call 'getDiseaseInfo', $(event.target).val(), (err, result) ->
       CreateDiseaseChart(result)
