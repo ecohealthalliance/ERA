@@ -13,12 +13,26 @@ Meteor.methods
     @ArticleCounts.find().count()
 
   getDiseaseInfo: _.memoize((disease) =>
-    @ArticleCounts.aggregate([
+    diseaseInfo = @ArticleCounts.aggregate([
         {$match: {"subject.diseaseLabels": disease}},
         {$project : { day : {$substr: ["$promedDate", 0, 10] }}},
         {$group   : { _id : "$day",  number : { $sum : 1 }}},
         {$sort    : { _id : 1 } }
     ])
+    # fill in missing dates with 0 counts
+    minDate = new Date(diseaseInfo[0]._id).getTime()
+    maxDate = new Date(diseaseInfo[diseaseInfo.length - 1]._id).getTime()
+    currentDate = minDate
+    newDates = []
+    while currentDate <= maxDate
+      d = moment(currentDate).format('YYYY-MM-DD')
+      entry = _.find(diseaseInfo, (disease) -> disease._id == d)
+      if entry
+        newDates.push entry
+      else
+        newDates.push {_id: d, number: 0}
+      currentDate += (24 * 60 * 60 * 1000);
+    newDates
   )
 
   getDiseaseNames: _.memoize( () =>
