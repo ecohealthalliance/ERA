@@ -2,8 +2,6 @@ Meteor.startup =>
   @Future = Npm.require('fibers/future')
   @GoogleApis = Npm.require('googleapis')
 
-diseases = null
-
 Meteor.methods
   getFlightCounts: =>
     @FlightTotals.find().count()
@@ -14,25 +12,24 @@ Meteor.methods
   getArticleCounts: =>
     @ArticleCounts.find().count()
 
-  getDiseaseInfo: (disease) =>
-    diseaseInfo = @ArticleCounts.aggregate([
+  getDiseaseInfo: _.memoize((disease) =>
+    @ArticleCounts.aggregate([
         {$match: {"subject.diseaseLabels": disease}},
         {$project : { day : {$substr: ["$promedDate", 0, 10] }}},
         {$group   : { _id : "$day",  number : { $sum : 1 }}},
         {$sort    : { _id : 1 } }
     ])
-    diseaseInfo
+  )
 
-  getDiseaseNames: =>
-    if !diseases
-      diseases = @ArticleCounts.find({},
-                    fields: 'subject.diseaseLabels': true
-                  ).fetch().map((x) ->
-                    x.subject.diseaseLabels
-                  )
-      diseases = _.flatten(diseases)
-      diseases = _.uniq(diseases).sort()
-    diseases
+  getDiseaseNames: _.memoize( () =>
+    diseases = @ArticleCounts.find({},
+                  fields: 'subject.diseaseLabels': true
+                ).fetch().map((x) ->
+                  x.subject.diseaseLabels
+                )
+    diseases = _.flatten(diseases)
+    _.uniq(diseases).sort()
+  )
 
 
   getAnalyticsData: ->
