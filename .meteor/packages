@@ -33,3 +33,4 @@ standard-minifier-js
 
 meteorhacks:aggregate
 peppelg:bootstrap-3-modal
+momentjs:moment
