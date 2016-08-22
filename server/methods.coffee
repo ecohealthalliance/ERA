@@ -12,6 +12,16 @@ Meteor.methods
   getArticleCounts: =>
     @ArticleCounts.find().count()
 
+  getDiseaseInfoByWeek: _.memoize((disease) =>
+    diseaseInfo = @ArticleCounts.aggregate([
+        {$match: {"subject.diseaseLabels": disease}},
+        {$project : { day : {$substr: ["$promedDate", 0, 10] }}},
+        {$group   : { _id : "$week",  number : { $sum : 1 }}},
+        {$sort    : { _id : 1 } }
+    ])
+    console.log diseaseInfo
+  )
+
   getDiseaseInfo: _.memoize((disease) =>
     diseaseInfo = @ArticleCounts.aggregate([
         {$match: {"subject.diseaseLabels": disease}},
