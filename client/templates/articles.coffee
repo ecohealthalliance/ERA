@@ -1,5 +1,5 @@
 Template.articles.onCreated ->
-  @articleCounts = new ReactiveVar 0
+  @articlesReady = new ReactiveVar false
   @diseases = new ReactiveVar false
   Modal.show("loadingModal")
   Meteor.call 'getDiseaseNames', (err, result) =>
@@ -11,12 +11,45 @@ Template.articles.helpers
   diseases: ->
     Template.instance().diseases.get()
 
+  articlesReady: ->
+    Template.instance().articlesReady.get()
+
 Template.articles.events
-  "change #diseases": (event) ->
+
+  "click .block": (event, template) ->
+    template.$(".block").removeClass("current")
+    $(event.target).addClass("current")
+
+  "change #diseases": (event, template) =>
+    template.$(".block").removeClass("current")
+    template.$(".month").addClass("current")
     Modal.show("loadingModal")
-    Meteor.call 'getDiseaseInfo', $(event.target).val(), (err, result) ->
+    Meteor.call 'getDiseaseInfoByMonth', template.$("#diseases").val(), (err, result) =>
+      template.articlesReady.set(true)
       CreateDiseaseChart(result)
       Modal.hide()
+
+  "click .day": (event, template) ->
+    Modal.show("loadingModal")
+    Meteor.call 'getDiseaseInfoByDay', template.$("#diseases").val(), (err, result) ->
+      template.articlesReady.set(true)
+      CreateDiseaseChart(result)
+      Modal.hide()
+
+  "click .week": (event, template) ->
+    Modal.show("loadingModal")
+    Meteor.call 'getDiseaseInfoByWeek', template.$("#diseases").val(), (err, result) ->
+      template.articlesReady.set(true)
+      CreateDiseaseChart(result)
+      Modal.hide()
+
+  "click .month": (event, template) ->
+    Modal.show("loadingModal")
+    Meteor.call 'getDiseaseInfoByMonth', template.$("#diseases").val(), (err, result) ->
+      template.articlesReady.set(true)
+      CreateDiseaseChart(result)
+      Modal.hide()
+
 
 CreateDiseaseChart = (counts) ->
     Highcharts.chart 'disease-chart',

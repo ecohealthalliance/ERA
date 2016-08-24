@@ -8,9 +8,13 @@ template(name='articles')
               option(disabled='disabled' selected='selected') Select
               each diseases
                 option(value=this)= this
-          if Template.subscriptionsReady
-            .disease-info
-              #disease-chart
+          if articlesReady
+            .time-spans view counts by:
+              button.block.day day
+              button.block.week week
+              button.block.month.current month
+          .disease-info
+            #disease-chart
             
 template(name="loadingModal")
   .modal.fade(role="dialog")

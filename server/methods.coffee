@@ -12,7 +12,70 @@ Meteor.methods
   getArticleCounts: =>
     @ArticleCounts.find().count()
 
-  getDiseaseInfo: _.memoize((disease) =>
+  getDiseaseInfoByMonth: _.memoize((disease) =>
+    diseaseInfo = @ArticleCounts.aggregate([
+        {$match: {"subject.diseaseLabels": disease}},
+        {$group   : { 
+            _id: {
+              year: {$year: "$promedDate"}
+              month: {$month: "$promedDate"}
+            },
+            number : { $sum : 1 }
+          }
+        },
+        {$sort    : { _id : 1 } }
+    ])
+    # fill in missing dates with 0 counts
+    newDates = []
+    years = _.uniq(
+          _.map diseaseInfo, (item) -> 
+            item._id.year
+        )
+    newDates = []
+    for year in years
+      for i in [1...12]
+        entry = _.find(diseaseInfo, (disease) -> disease._id.year == year && disease._id.month == i)
+        d = moment().date(1).month(i-1).year(year)
+        if entry
+          entry._id = d.format('YYYY-MM-DD')
+          newDates.push(entry)
+        else
+          newDates.push {_id: d.format('YYYY-MM-DD'), number: 0}
+    newDates
+  )
+
+  getDiseaseInfoByWeek: _.memoize((disease) =>
+    diseaseInfo = @ArticleCounts.aggregate([
+        {$match: {"subject.diseaseLabels": disease}},
+        {$group   : { 
+            _id: {
+              year: {$year: "$promedDate"}
+              week: {$week: "$promedDate"}
+            },
+            number : { $sum : 1 }
+          }
+        },
+        {$sort    : { _id : 1 } }
+    ])
+    # fill in missing dates with 0 counts
+    years = _.uniq(
+              _.map diseaseInfo, (item) -> 
+                item._id.year
+            )
+    newDates = []
+    for year in years
+      for i in [0...53]
+        entry = _.find(diseaseInfo, (disease) -> disease._id.year == year && disease._id.week == i)
+        d = moment().day("Sunday").week(i).year(year)
+        if entry
+          entry._id = d.format('YYYY-MM-DD')
+          newDates.push(entry)
+        else
+          newDates.push {_id: d.format('YYYY-MM-DD'), number: 0}
+    newDates
+  )
+
+  getDiseaseInfoByDay: _.memoize((disease) =>
     diseaseInfo = @ArticleCounts.aggregate([
         {$match: {"subject.diseaseLabels": disease}},
         {$project : { day : {$substr: ["$promedDate", 0, 10] }}},
