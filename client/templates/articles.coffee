@@ -17,35 +17,35 @@ Template.articles.helpers
 Template.articles.events
 
   "click .block": (event, template) ->
-    $(".block").removeClass("current")
+    template.$(".block").removeClass("current")
     $(event.target).addClass("current")
 
   "change #diseases": (event, template) =>
-    $(".block").removeClass("current")
-    $(".month").addClass("current")
+    template.$(".block").removeClass("current")
+    template.$(".month").addClass("current")
     Modal.show("loadingModal")
-    Meteor.call 'getDiseaseInfoByMonth', $("#diseases").val(), (err, result) =>
+    Meteor.call 'getDiseaseInfoByMonth', template.$("#diseases").val(), (err, result) =>
       template.articlesReady.set(true)
       CreateDiseaseChart(result)
       Modal.hide()
 
   "click .day": (event, template) ->
     Modal.show("loadingModal")
-    Meteor.call 'getDiseaseInfoByDay', $("#diseases").val(), (err, result) ->
+    Meteor.call 'getDiseaseInfoByDay', template.$("#diseases").val(), (err, result) ->
       template.articlesReady.set(true)
       CreateDiseaseChart(result)
       Modal.hide()
 
   "click .week": (event, template) ->
     Modal.show("loadingModal")
-    Meteor.call 'getDiseaseInfoByWeek', $("#diseases").val(), (err, result) ->
+    Meteor.call 'getDiseaseInfoByWeek', template.$("#diseases").val(), (err, result) ->
       template.articlesReady.set(true)
       CreateDiseaseChart(result)
       Modal.hide()
 
   "click .month": (event, template) ->
     Modal.show("loadingModal")
-    Meteor.call 'getDiseaseInfoByMonth', $("#diseases").val(), (err, result) ->
+    Meteor.call 'getDiseaseInfoByMonth', template.$("#diseases").val(), (err, result) ->
       template.articlesReady.set(true)
       CreateDiseaseChart(result)
       Modal.hide()
