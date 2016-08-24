@@ -25,6 +25,7 @@ Meteor.methods
         },
         {$sort    : { _id : 1 } }
     ])
+    # fill in missing dates with 0 counts
     newDates = []
     years = _.uniq(
           _.map diseaseInfo, (item) -> 
@@ -41,8 +42,6 @@ Meteor.methods
         else
           newDates.push {_id: d.format('YYYY-MM-DD'), number: 0}
     newDates
-      
-    newDates
   )
 
   getDiseaseInfoByWeek: _.memoize((disease) =>
@@ -58,6 +57,7 @@ Meteor.methods
         },
         {$sort    : { _id : 1 } }
     ])
+    # fill in missing dates with 0 counts
     years = _.uniq(
               _.map diseaseInfo, (item) -> 
                 item._id.year
