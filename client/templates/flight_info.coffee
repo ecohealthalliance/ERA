@@ -4,6 +4,9 @@ DayCounts = ->
   @DayCounts
 AirportCounts = ->
   @AirportCounts
+HistoricalData = ->
+  @HistoricalData
+
 
 CreateDaysChart = ->
   counts = DayCounts().find().fetch()
@@ -86,9 +89,52 @@ CreateFlightCountChart = ->
         ]
 
 Template.flightInfo.onCreated ->
+  @lastTwoUpdates = new ReactiveVar false
   @flightCountsSubHandle = @subscribe 'flightCounts'
   @dayCountsSubHandle = @subscribe 'dayCounts'
   @airportCountsSubHandle = @subscribe 'airportCounts'
+  @historicalDataSubHandle = @subscribe 'historicalData'
+
+Template.flightInfo.helpers
+  currentDate: ->
+    history = Template.instance().lastTwoUpdates.get()
+    if history
+      moment(history[0].date).format("MM/D/YYYY")
+
+  previousDate: ->
+    history = Template.instance().lastTwoUpdates.get()
+    if history
+      moment(history[1].date).format("MM/D/YYYY")
+
+  currentLegCount: ->
+    history = Template.instance().lastTwoUpdates.get()
+    if history
+      history[0].counts.legs + " legs"
+
+  previousLegCount: ->
+    history = Template.instance().lastTwoUpdates.get()
+    if history
+      history[1].counts.legs + " legs"
+
+  currentFlightCount: ->
+    history = Template.instance().lastTwoUpdates.get()
+    if history
+      history[0].counts.flights + " flights"
+
+  previousFlightCount: ->
+    history = Template.instance().lastTwoUpdates.get()
+    if history
+      history[1].counts.flights + " flights"
+
+  legsAdded: ->
+    history = Template.instance().lastTwoUpdates.get()
+    if history
+      history[0].counts.legs - history[1].counts.legs
+
+  flightsAdded: ->
+    history = Template.instance().lastTwoUpdates.get()
+    if history
+      history[0].counts.flights - history[1].counts.flights
 
 Template.flightInfo.onRendered ->
   # Render placeholders
@@ -99,9 +145,14 @@ Template.flightInfo.onRendered ->
   @autorun =>
     if @flightCountsSubHandle.ready()
       CreateFlightCountChart()
-  @autorun =>
+
     if @dayCountsSubHandle.ready()
       CreateDaysChart()
-  @autorun =>
+
     if @airportCountsSubHandle.ready()
       CreateAirportChart()
+
+    if @historicalDataSubHandle.ready()
+      lastTwoUpdates = HistoricalData().find({}, {sort: {date: -1}, take: 2}).fetch()
+      # console.log lastTwoUpdates
+      Template.instance().lastTwoUpdates.set(lastTwoUpdates)

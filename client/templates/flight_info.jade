@@ -1,5 +1,51 @@
 template(name='flightInfo')
   .row
+    .info-block
+      h2.no-break Monthly Update
+      .right
+        | Jenkins Update Job Status:
+        .status
+          span.success.glyphicon.glyphicon-ok.large
+          //- | Successful
+    if currentDate
+      .col-sm-6.current.info-block
+        table.table.table-bordered
+          thead
+            tr
+              th Date
+              th Count
+          tbody
+            tr
+              td=currentDate
+              td=currentLegCount
+            tr
+              td=previousDate
+              td=previousLegCount
+        .summary
+          h3.no-break=legsAdded
+          | legs added since
+          =previousDate
+      .col-sm-6.previous.info-block
+        table.table.table-bordered
+          thead
+            tr
+              th Date
+              th Count
+          tbody
+            tr
+              td=currentDate
+              td=currentFlightCount
+            tr
+              td=previousDate
+              td=previousFlightCount
+        .summary
+          h3.no-break=flightsAdded
+          | flights added since
+          =previousDate
+      //- .col-sm-2.update.info-block
+      //-   | Jenkins Update Job Status
+      //-   span.glyphicon.glyphicon-ok
+  .row
     .col-sm-9.info-block
       h2 Flights
       .chart#flight-chart

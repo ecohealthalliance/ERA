@@ -108,7 +108,8 @@ Meteor.methods
   )
 
 
-  getAnalyticsData: ->
+  #throttlling to only hit Analytics api once per hour
+  getAnalyticsData: _.throttle( () ->
     future = new Future()
     jwtClient = new GoogleApis.auth.JWT(
       Meteor.settings.private.ga_private_key.client_email,
@@ -170,3 +171,4 @@ Meteor.methods
             ThirtyDays: results[1]
           })
     return future.wait()
+  , 3600000)
