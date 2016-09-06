@@ -4,10 +4,9 @@ Template.articles.onCreated ->
   @selectedTab = new ReactiveVar 'Month'
   @selectedDisease = new ReactiveVar null
 
-
 Template.articles.onRendered ->
   instance = @
-  Meteor.call 'getDiseaseNames', (err, diseases) =>
+  Meteor.call 'getDiseaseNames', (err, diseases) ->
     console.log err if err
     for disease in diseases
       instance.diseases.insert disease: disease
@@ -30,7 +29,7 @@ Template.articles.helpers
 
 Template.articles.events
   "click .time-spans button": (event, template) ->
-    template.selectedTab.set template.$(event.target).data 'tab'
+    template.selectedTab.set template.$(event.currentTarget).data 'tab'
     GetDiseaseInfo template
 
   "change #diseases": (event, template) ->
@@ -39,13 +38,15 @@ Template.articles.events
 
 GetDiseaseInfo = (template) ->
   articlesReady = template.articlesReady
-  methodName = "getDiseaseInfoBy#{template.selectedTab.get()}"
+  time = template.selectedTab.get()
+  methodName = "getDiseaseInfoBy#{time}"
+  disease = template.selectedDisease.get()
   articlesReady.set false
-  Meteor.call methodName, template.selectedDisease.get(), (err, result) ->
+  Meteor.call methodName, disease, (err, result) ->
     articlesReady.set true
-    CreateDiseaseChart result
+    CreateDiseaseChart result, disease, template.selectedTab.get()
 
-CreateDiseaseChart = (counts) ->
+CreateDiseaseChart = (counts, disease, time) ->
   Meteor.defer ->
     Highcharts.chart 'disease-chart',
       chart:
@@ -53,7 +54,7 @@ CreateDiseaseChart = (counts) ->
         zoomType: 'x'
       ,
       title:
-        text: 'Article count'
+        text: disease
       ,
       xAxis:
         name: 'Date',
@@ -64,6 +65,7 @@ CreateDiseaseChart = (counts) ->
           text: 'Article count'
       ,
       series: [
-        name: 'Article density',
+        name: "Article density (#{time})",
         data: _.pluck(counts,'number')
       ]
+      credits: enabled: false

@@ -1,26 +1,32 @@
 template(name='articles')
   .container-fluid
-    .row.dash-row-main
-      .col-sm-10.col-sm-offset-1
-        h2 Article Density
-        if diseases
-          .row
-            .col-sm-8
-              select#diseases(placeholder="Select a Disease")
-                option
-                each diseases
-                  option(value=disease)= disease
+    h2 Article Density
+    if diseases
+      .options
+        .option-container
+          select#diseases(placeholder="Select a Disease")
+            option
+            each diseases
+              option(value=disease)= disease
+        .option-container
+          .time-spans
+            span View article counts by:
+            button.btn.btn-default.btn-sm(data-tab="Month" class="{{#if selectedTab 'Month'}} btn-primary {{/if}}")
+              span Month
+            button.btn.btn-default.btn-sm(data-tab="Week" class="{{#if selectedTab 'Week'}} btn-primary {{/if}}")
+              span Week
+            button.btn.btn-default.btn-sm(data-tab="Day" class="{{#if selectedTab 'Day'}} btn-primary {{/if}}")
+              span Day
+          unless selectedDisease
+            .veil
+    else
+      +loading
+    .article-count-chart
+      if selectedDisease
+        if articlesReady
+          .disease-info
+            #disease-chart
         else
           +loading
-        .article-count-chart
-          if selectedDisease
-            .time-spans
-              span View counts by:
-              button(data-tab="Day" class="{{#if selectedTab 'Day'}} selected {{/if}}") Day
-              button(data-tab="Week" class="{{#if selectedTab 'Week'}} selected {{/if}}") Week
-              button(data-tab="Month" class="{{#if selectedTab 'Month'}} selected {{/if}}") Month
-            if articlesReady
-              .disease-info
-                #disease-chart
-            else
-              +loading
+      else
+        p.instructions Select a disease to view article density chart

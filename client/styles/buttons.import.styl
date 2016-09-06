@@ -1,0 +1,76 @@
+$btn-types = {
+  '.btn-default': {
+    text-color: $d-gray
+    color: $l-gray,
+    color-light: $l-gray
+    bg: $ll-gray
+  },
+  '.btn-primary': {
+    text-color: $d-gray
+    color: $primary,
+    color-light: darken($primary-l, 20%)
+    bg: lighten($border-primary, 20%)
+  },
+  '.btn-success': {
+    text-color: $primary
+    color: $secondary,
+    color-light:  $secondary
+    bg: lighten($border-secondary, 20%)
+  }
+  '.btn-danger': {
+    text-color: $primary
+    text-color-hover: white
+    color: $delete,
+    color-light:  $delete
+    bg: lighten($delete, 90%)
+  }
+  '.btn-warning': {
+    text-color: $primary
+    color: $warning,
+    color-light:  $warning
+    bg: lighten($warning, 90%)
+  }
+}
+
+$buttons()
+  for $btn-type, $btn-type-props  in $btn-types
+    $text = $btn-type-props.text-color
+    $text-hover = $btn-type-props.text-color-hover or $text
+    $color = $btn-type-props.color
+    $color-light = $btn-type-props.color-light
+    $bg = $btn-type-props.bg
+    {$btn-type}
+      background $bg
+      color $text
+      border-color $color-light
+      &:hover
+        background $color-light
+        color $text-hover
+        border-color darken($color-light, 20%)
+      &:focus
+        border-color darken($color, 20%)
+        background saturate(darken($bg, 10%), 20%)
+        color $text
+      &:focus
+      &:active
+      &:active:focus
+        outline 0
+        box-shadow none
+      &:active
+      &:active:focus
+        color $text
+        background darken($bg, 20%)
+      &.disabled
+        &:hover
+          background $bg
+          border-color $color-light
+
+.btn
+  padding .35em 1em .2em 1em
+  font-weight 400
+  letter-spacing .03em
+
+.btn-sm
+  line-height 1
+
+$buttons()

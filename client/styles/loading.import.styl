@@ -1,17 +1,38 @@
 .loading
   position absolute
-  top 45%
+  top 50%
   left 50%
   transform translate(-50%, -50%)
-  color $m-gray
+  z-index 100000
 
-.loading-spinner
-  font-size 8em
-  &.inline-icon
-    font-size 1em
-    padding-left .1em
-    padding-right .1em
-  &.small
-    font-size 4em
-  &.space-top
-    margin-top 4em
+.arc-rotate2
+  .loader
+    width 200px
+    height 200px
+    .arc
+      position absolute
+      width 100%
+      height 100%
+      &::before
+        border-color #000
+        opacity .2
+      &::after
+        color $primary
+        border-color transparent
+        border-bottom-color $primary
+        animation rotate 1s infinite linear
+
+.arc-rotate2 .loader .arc::before
+.arc-rotate2 .loader .arc::after
+  content ''
+  position absolute
+  top 32%
+  left 32%
+  border 3px solid
+  border-radius 50%
+  width 36%
+  height 36%
+
+@keyframes rotate
+    100%
+      transform rotate(360deg)
