@@ -1,0 +1,9 @@
+template(name="loading")
+  if inline
+    +loading_spinner classes=classes
+  else
+    .loading
+      +loading_spinner classes=classes
+
+template(name="loading_spinner")
+  i.fa.fa-spinner.fa-spin.loading-spinner(class=classes)

@@ -1,4 +1,5 @@
 @import 'variables.import'
+@import 'loading.import'
 
 $apps = flirt birt eidr performance
 
@@ -101,7 +102,7 @@ nav
   color $gray-m
   text-shadow 0 1px 0 rgba(255,255,255,.2)
   border-bottom 5px solid $border-gray
-  .mdi
+  .fa
     font-size 2.5em
   &:last-of-type
     border-right 0
@@ -159,7 +160,11 @@ nav
 .month-users
   margin-bottom 20px
 
-.current
+.article-count-chart
+  position relative
+  min-height 400px
+
+.selected
   border-color red
   border-width 2px
 

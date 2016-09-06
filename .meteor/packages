@@ -23,7 +23,7 @@ twbs:bootstrap
 stylus
 peerlibrary:async
 reactive-var
-dapearce:material-icons
+fortawesome:fontawesome
 kadira:flow-router
 kadira:blaze-layout
 arillo:flow-router-helpers
@@ -32,5 +32,4 @@ standard-minifier-css
 standard-minifier-js
 
 meteorhacks:aggregate
-peppelg:bootstrap-3-modal
 momentjs:moment

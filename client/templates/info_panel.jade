@@ -2,7 +2,7 @@ template(name='infoPanel')
   .info-panel(class="{{#if active}}active{{/if}}", data-chart="#{chart}")
     .panel-header
       .title
-        i.mdi(class="mdi-#{icon}")
+        i.fa(class="fa-#{icon}")
         h2= title
       .info
         .primary= primary
