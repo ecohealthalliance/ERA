@@ -4,19 +4,22 @@ template(name='articles')
       .col-sm-10.col-sm-offset-1
         h2 Article Density
         if diseases
-          select#diseases
-            option(disabled='disabled' selected='selected') Select
-            each diseases
-              option(value=disease)= disease
+          .row
+            .col-sm-8
+              select#diseases(placeholder="Select a Disease")
+                option
+                each diseases
+                  option(value=disease)= disease
         else
           +loading
-        if selectedDisease
-          .article-count-chart
+        .article-count-chart
+          if selectedDisease
+            .time-spans
+              span View counts by:
+              button(data-tab="Day" class="{{#if selectedTab 'Day'}} selected {{/if}}") Day
+              button(data-tab="Week" class="{{#if selectedTab 'Week'}} selected {{/if}}") Week
+              button(data-tab="Month" class="{{#if selectedTab 'Month'}} selected {{/if}}") Month
             if articlesReady
-              .time-spans view counts by:
-                button(data-tab="Day" class="{{#if selectedTab 'Day'}} selected {{/if}}") Day
-                button(data-tab="Week" class="{{#if selectedTab 'Week'}} selected {{/if}}") Week
-                button(data-tab="Month" class="{{#if selectedTab 'Month'}} selected {{/if}}") Month
               .disease-info
                 #disease-chart
             else

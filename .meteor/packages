@@ -30,6 +30,7 @@ arillo:flow-router-helpers
 zimme:active-route
 standard-minifier-css
 standard-minifier-js
+natestrauser:select2
 
 meteorhacks:aggregate
 momentjs:moment

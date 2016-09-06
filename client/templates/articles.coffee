@@ -3,10 +3,17 @@ Template.articles.onCreated ->
   @diseases = new Meteor.Collection null
   @selectedTab = new ReactiveVar 'Month'
   @selectedDisease = new ReactiveVar null
+
+
+Template.articles.onRendered ->
+  instance = @
   Meteor.call 'getDiseaseNames', (err, diseases) =>
     console.log err if err
     for disease in diseases
-      @diseases.insert disease: disease
+      instance.diseases.insert disease: disease
+    Meteor.defer ->
+      instance.$('#diseases').select2
+        placeholder: 'Select a disease'
 
 Template.articles.helpers
   diseases: ->
