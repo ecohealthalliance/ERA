@@ -1,38 +1,32 @@
+$loader-BG = lighten($secondary-trans, 50%)
+$loader-spinner = darken($primary, 5%)
+
+.loading-veil
+  position absolute
+  top 0
+  bottom 0
+  left 0
+  right 0
+  background rgba(255,255,255, .8)
+  z-index 1000
+
 .loading
   position absolute
   top 50%
   left 50%
   transform translate(-50%, -50%)
-  z-index 100000
+  z-index 1001
 
-.arc-rotate2
-  .loader
-    width 200px
-    height 200px
-    .arc
-      position absolute
-      width 100%
-      height 100%
-      &::before
-        border-color #000
-        opacity .2
-      &::after
-        color $primary
-        border-color transparent
-        border-bottom-color $primary
-        animation rotate 1s infinite linear
+.loader
+  position relative
+  border-top 4px solid $loader-BG
+  border-right 4px solid $loader-BG
+  border-bottom 4px solid $loader-BG
+  border-left 4px solid $loader-spinner
+  animation rotate 1s infinite linear
 
-.arc-rotate2 .loader .arc::before
-.arc-rotate2 .loader .arc::after
-  content ''
-  position absolute
-  top 32%
-  left 32%
-  border 3px solid
+.loader
+.loader:after
   border-radius 50%
-  width 36%
-  height 36%
-
-@keyframes rotate
-    100%
-      transform rotate(360deg)
+  width 10em
+  height 10em
