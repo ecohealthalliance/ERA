@@ -15,6 +15,9 @@ Template.articles.onRendered ->
         placeholder: 'Select a disease'
 
 Template.articles.helpers
+  diseasesLoaded: ->
+    Template.instance().diseases.findOne()
+
   diseases: ->
     Template.instance().diseases.find()
 

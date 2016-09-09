@@ -1,32 +1,33 @@
 template(name='articles')
   .container-fluid
     h2 Article Density
-    if diseases
-      .options
-        .option-container
-          select#diseases(placeholder="Select a Disease")
-            option
-            each diseases
-              option(value=disease)= disease
-        .option-container
-          .time-spans
-            span View article counts by:
-            button.btn.btn-default.btn-sm(data-tab="Month" class="{{#if selectedTab 'Month'}} btn-primary {{/if}}")
-              span Month
-            button.btn.btn-default.btn-sm(data-tab="Week" class="{{#if selectedTab 'Week'}} btn-primary {{/if}}")
-              span Week
-            button.btn.btn-default.btn-sm(data-tab="Day" class="{{#if selectedTab 'Day'}} btn-primary {{/if}}")
-              span Day
-          unless selectedDisease
-            .veil
-    else
-      +loading
-    .article-count-chart
-      if selectedDisease
-        if articlesReady
-          .disease-info
-            #disease-chart
-        else
-          +loading
+    .article-count-wrapper
+      if diseasesLoaded
+        .options
+          .option-container
+            select#diseases(placeholder="Select a Disease")
+              option
+              each diseases
+                option(value=disease)= disease
+          .option-container
+            .time-spans
+              span View article counts by:
+              button.btn.btn-default.btn-sm(data-tab="Month" class="{{#if selectedTab 'Month'}} btn-primary {{/if}}")
+                span Month
+              button.btn.btn-default.btn-sm(data-tab="Week" class="{{#if selectedTab 'Week'}} btn-primary {{/if}}")
+                span Week
+              button.btn.btn-default.btn-sm(data-tab="Day" class="{{#if selectedTab 'Day'}} btn-primary {{/if}}")
+                span Day
+            unless selectedDisease
+              .veil
+        .article-count-chart
+          if selectedDisease
+            if articlesReady
+              .disease-info
+                #disease-chart
+            else
+              +loading veil=true
+          else
+            p.instructions Select a disease to view article density chart
       else
-        p.instructions Select a disease to view article density chart
+        +loading
