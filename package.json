@@ -1,0 +1,19 @@
+{
+  "name": "era",
+  "version": "1.0.0",
+  "description": "Dashboard for viewing statistics about various EHA projects",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ecohealthalliance/ERA.git"
+  },
+  "author": "EcoHealth Alliance",
+  "license": "Apache License",
+  "bugs": {
+    "url": "https://github.com/ecohealthalliance/ERA/issues"
+  },
+  "homepage": "https://github.com/ecohealthalliance/ERA#readme"
+}

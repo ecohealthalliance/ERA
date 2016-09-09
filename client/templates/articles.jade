@@ -1,26 +1,33 @@
 template(name='articles')
   .container-fluid
-      .row.dash-row-main
-        .col-sm-10.col-sm-offset-1
-          h2 Article Density
-          if diseases
-            select#diseases
-              option(disabled='disabled' selected='selected') Select
+    h2 Article Density
+    .article-count-wrapper
+      if diseasesLoaded
+        .options
+          .option-container
+            select#diseases(placeholder="Select a Disease")
+              option
               each diseases
-                option(value=this)= this
-          if articlesReady
-            .time-spans view counts by:
-              button.block.day day
-              button.block.week week
-              button.block.month.current month
-          .disease-info
-            #disease-chart
-            
-template(name="loadingModal")
-  .modal.fade(role="dialog")
-    .modal-dialog
-      .modal-content
-        .modal-body
-          p
-            i.fa.fa-circle-o-notch.fa-spin
-            | Loading...
+                option(value=disease)= disease
+          .option-container
+            .time-spans
+              span View article counts by:
+              button.btn.btn-default.btn-sm(data-tab="Month" class="{{#if selectedTab 'Month'}} btn-primary {{/if}}")
+                span Month
+              button.btn.btn-default.btn-sm(data-tab="Week" class="{{#if selectedTab 'Week'}} btn-primary {{/if}}")
+                span Week
+              button.btn.btn-default.btn-sm(data-tab="Day" class="{{#if selectedTab 'Day'}} btn-primary {{/if}}")
+                span Day
+            unless selectedDisease
+              .veil
+        .article-count-chart
+          if selectedDisease
+            if articlesReady
+              .disease-info
+                #disease-chart
+            else
+              +loading veil=true
+          else
+            p.instructions Select a disease to view article density chart
+      else
+        +loading

@@ -1,4 +1,9 @@
 @import 'variables.import'
+@import 'keyframes.import'
+@import 'buttons.import'
+@import 'loading.import'
+
+@import 'article.import'
 
 $apps = flirt birt eidr performance
 
@@ -101,7 +106,7 @@ nav
   color $gray-m
   text-shadow 0 1px 0 rgba(255,255,255,.2)
   border-bottom 5px solid $border-gray
-  .mdi
+  .fa
     font-size 2.5em
   &:last-of-type
     border-right 0
@@ -158,20 +163,3 @@ nav
 
 .month-users
   margin-bottom 20px
-
-.current
-  border-color red
-  border-width 2px
-
-@-moz-keyframes spin
-  100%
-    -moz-transform: rotate(360deg)
-
-@-webkit-keyframes spin
-  100%
-    -webkit-transform: rotate(360deg)
-
-@keyframes spin
-  100%
-    -webkit-transform: rotate(360deg)
-    transform:rotate(360deg)

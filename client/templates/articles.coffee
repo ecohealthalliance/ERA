@@ -1,64 +1,63 @@
 Template.articles.onCreated ->
   @articlesReady = new ReactiveVar false
-  @diseases = new ReactiveVar false
-  Modal.show("loadingModal")
-  Meteor.call 'getDiseaseNames', (err, result) =>
+  @diseases = new Meteor.Collection null
+  @selectedTab = new ReactiveVar 'Month'
+  @selectedDisease = new ReactiveVar null
+
+Template.articles.onRendered ->
+  instance = @
+  Meteor.call 'getDiseaseNames', (err, diseases) ->
     console.log err if err
-    Modal.hide()
-    @diseases.set result
+    for disease in diseases
+      instance.diseases.insert disease: disease
+    Meteor.defer ->
+      instance.$('#diseases').select2
+        placeholder: 'Select a disease'
 
 Template.articles.helpers
+  diseasesLoaded: ->
+    Template.instance().diseases.findOne()
+
   diseases: ->
-    Template.instance().diseases.get()
+    Template.instance().diseases.find()
 
   articlesReady: ->
     Template.instance().articlesReady.get()
 
+  selectedTab: (tab) ->
+    tab is Template.instance().selectedTab.get()
+
+  selectedDisease: ->
+    Template.instance().selectedDisease.get()
+
 Template.articles.events
+  "click .time-spans button": (event, template) ->
+    template.selectedTab.set template.$(event.currentTarget).data 'tab'
+    GetDiseaseInfo template
 
-  "click .block": (event, template) ->
-    template.$(".block").removeClass("current")
-    $(event.target).addClass("current")
+  "change #diseases": (event, template) ->
+    template.selectedDisease.set template.$(event.target).val()
+    GetDiseaseInfo template
 
-  "change #diseases": (event, template) =>
-    template.$(".block").removeClass("current")
-    template.$(".month").addClass("current")
-    Modal.show("loadingModal")
-    Meteor.call 'getDiseaseInfoByMonth', template.$("#diseases").val(), (err, result) =>
-      template.articlesReady.set(true)
-      CreateDiseaseChart(result)
-      Modal.hide()
+GetDiseaseInfo = (template) ->
+  articlesReady = template.articlesReady
+  time = template.selectedTab.get()
+  methodName = "getDiseaseInfoBy#{time}"
+  disease = template.selectedDisease.get()
+  articlesReady.set false
+  Meteor.call methodName, disease, (err, result) ->
+    articlesReady.set true
+    CreateDiseaseChart result, disease, template.selectedTab.get()
 
-  "click .day": (event, template) ->
-    Modal.show("loadingModal")
-    Meteor.call 'getDiseaseInfoByDay', template.$("#diseases").val(), (err, result) ->
-      template.articlesReady.set(true)
-      CreateDiseaseChart(result)
-      Modal.hide()
-
-  "click .week": (event, template) ->
-    Modal.show("loadingModal")
-    Meteor.call 'getDiseaseInfoByWeek', template.$("#diseases").val(), (err, result) ->
-      template.articlesReady.set(true)
-      CreateDiseaseChart(result)
-      Modal.hide()
-
-  "click .month": (event, template) ->
-    Modal.show("loadingModal")
-    Meteor.call 'getDiseaseInfoByMonth', template.$("#diseases").val(), (err, result) ->
-      template.articlesReady.set(true)
-      CreateDiseaseChart(result)
-      Modal.hide()
-
-
-CreateDiseaseChart = (counts) ->
+CreateDiseaseChart = (counts, disease, time) ->
+  Meteor.defer ->
     Highcharts.chart 'disease-chart',
       chart:
         type: 'column',
         zoomType: 'x'
       ,
       title:
-        text: 'Article count'
+        text: disease
       ,
       xAxis:
         name: 'Date',
@@ -69,6 +68,7 @@ CreateDiseaseChart = (counts) ->
           text: 'Article count'
       ,
       series: [
-        name: 'Article density',
+        name: "Article density (#{time})",
         data: _.pluck(counts,'number')
       ]
+      credits: enabled: false

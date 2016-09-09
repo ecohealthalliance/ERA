@@ -1,0 +1,32 @@
+$loader-BG = lighten($secondary-trans, 50%)
+$loader-spinner = darken($primary, 5%)
+
+.loading-veil
+  position absolute
+  top 0
+  bottom 0
+  left 0
+  right 0
+  background rgba(255,255,255, .8)
+  z-index 1000
+
+.loading
+  position absolute
+  top 50%
+  left 50%
+  transform translate(-50%, -50%)
+  z-index 1001
+
+.loader
+  position relative
+  border-top 4px solid $loader-BG
+  border-right 4px solid $loader-BG
+  border-bottom 4px solid $loader-BG
+  border-left 4px solid $loader-spinner
+  animation rotate 1s infinite linear
+
+.loader
+.loader:after
+  border-radius 50%
+  width 10em
+  height 10em
